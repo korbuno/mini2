@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+.fixed-top, .fixed-bottom {
+	background-color: #fff !important;
+}

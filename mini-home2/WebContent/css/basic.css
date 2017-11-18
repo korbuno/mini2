@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/*메뉴버튼 기본 위치*/
+.menuBtn{
+	transition: 1S;
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	z-index: 2000 !important;
+}
+/* 메뉴목록 기본 위치 */
+.list-group{
+	top: 25%;
+	transition: 1S;
+	width: 200px;
+	overflow: hidden;
+	position: absolute;	
+	z-index: 2000 !important;
+}
+/* 메뉴 숨김 */
+#menuHidden { 
+	left: -190px;
+}
+/* 메뉴 보임 */
+#menuShow { 
+	left: 0px;
+}
+/* 메뉴버튼 숨김 */
+#btnHidden {  
+	left: 16px; 
+} 
+/* 메뉴버튼 보임 */
+#btnShow {  
+	left: 206px; 
+}
+/* 검색상세 숨김*/
+#serachTypeHidden{
+	height: 0%;
+	opacity: 0;
+}
+/* 검색상세 보임*/
+#serachTypeShow{
+	height: 100%;
+	opacity: 1;
+}
+/* 검색상세버튼 숨김*/
+#serachBtnHidden{
+	height: 10%;
+}
+/* 검색상세버튼 보임*/
+#serachBtnShow{
+	height: 100%;
+}
+/* 검색창 기본위치 */
+div.col-lg-6{
+		top: 5%;
+		left: 25%;
+		width: 50%;
+		position: absolute;
+}
+/* 검색상세 기본위치 */
+div.serach-detail{
+		border: 0.5px solid black;
+		border-top-color: white;
+		line-height: 0.5px;
+		overflow: hidden;
+		transition: 1S;
+		position: absolute;
+}
+
+.serchDetailBtn{
+	float: right;
+}
+
+body { padding-bottom: 70px; }
