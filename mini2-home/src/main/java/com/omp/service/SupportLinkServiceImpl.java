@@ -21,8 +21,6 @@ public class SupportLinkServiceImpl implements SupportLinkService
 	private SupportLinkMapper mapper;
 
 	public List<SupportLink> readSupportLink(SupportLink supportLink) throws Exception {
-		
-		
 		return mapper.readSupportLink(supportLink);
 	}
 

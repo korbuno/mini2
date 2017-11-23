@@ -39,13 +39,12 @@
 	</select>
 	
 	<select id="readSupportLink" resultMap="supportMap" parameterType="supportLink">
-	  	<!-- select * 
+	  	select * 
 	  		from(select rownum rnum, a.*
 	  			from (select *
 	  				from support_link
 	  			order by support_no desc)a)
-	  		where rnum between #{begin} and #{end} -->
-	  		select * from support_link
+	  		where rnum between #{begin} and #{end}
 	</select>
 	
 	<select id="totalSupportLink" resultType="int">
