@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.AttendanceMapper">
+	<resultMap id="attendanceMap" type="attendance">
+		<result column="attendance_no" property="attendanceNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="attend" property="attend" />
+		<result column="reg_date" property="regDate" />
+		<result column="reg_date_detail" property="regDateDetail" />
+	</resultMap>
+
+	<insert id="insertAttendance" parameterType="attendance">
+ 		insert into attendance(
+			attendance_no, 
+			member_no,
+			attend			
+		) values ( 
+			attendance_no.nextval, 
+		    #{memberNo}, #{attend}
+		)
+	</insert>
+	
+	<update id="modifyAttendance" parameterType="attendance">
+	    update attendance(
+	    	set attend =  #{attend}
+	    where attendance_no = #{attendanceNo}	    
+	</update>
+	
+	<select id="readAttendance" resultMap="attendanceMap" parameterType="attendance">
+	  	select * 
+	  		from(select rownum rnum, a.*
+	  			from (select *
+	  				from attendance
+	  				where member_no = #{memberNo}
+	  			order by attendance_no desc)a)
+	  		where rnum between ? and ?
+	</select>
+	
+	<select id="totalAttendance" resultType="int">
+		select count(*) from attendance
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

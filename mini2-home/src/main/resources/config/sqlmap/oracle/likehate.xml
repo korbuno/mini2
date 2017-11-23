@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.LikeHateMapper">
+	<resultMap id="likehateMap" type="likehate">
+		<result column="like_hate" property="likeHate" />
+		<result column="board_no" property="boardNo" />
+		<result column="member_no" property="memberNo" />
+	</resultMap>
+
+	<insert id="insertLikeHate" parameterType="likehate">
+ 		insert into like_hate(
+			like_hate, 
+			board_no, 
+			member_no 
+		) values ( 
+		    #{likeHate}, #{boardNo}, #{memberNo}
+		)
+	</insert>
+	
+	<update id="modifyLikeHate" parameterType="likehate">
+	   update like_hate 
+	      set title = #{title}, 
+	          site = #{site}, 
+	    where support_no = #{supportNo}
+	</update>
+	
+	<select id="totalLikeHate" resultType="int" parameterType="int">
+		select count(*) 
+			from like_hate
+			where board_no = #{boardNo}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
