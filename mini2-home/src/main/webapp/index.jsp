@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="${pageContext.request.contextPath}/supportlink/supportLink.do">hello</a><br/>
+	<a href="${pageContext.request.contextPath}/main/main.do" ></a>
+
 </body>
 </html>

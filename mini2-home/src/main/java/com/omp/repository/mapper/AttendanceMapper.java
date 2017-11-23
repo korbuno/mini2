@@ -2,7 +2,6 @@ package com.omp.repository.mapper;
 
 import java.util.List;
 
-import com.omp.common.Page;
 import com.omp.repository.domain.Attendance;
 
 public interface AttendanceMapper 
