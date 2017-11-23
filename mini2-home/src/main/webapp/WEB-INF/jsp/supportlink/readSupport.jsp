@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	
+	${supportList[0].title}
+	${supportList[0].site}
+	${supportList[0].supportNo}
 	<h1>열린다</h1>
 </body>
 </html>

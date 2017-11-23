@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.omp.common.Page;
+import com.omp.repository.domain.SupportLink;
 import com.omp.repository.mapper.SupportLinkMapper;
 import com.omp.service.SupportLinkService;
 
@@ -21,12 +23,10 @@ public class SupportLinkController
 	
 	
 	@RequestMapping("/supportlink/readSupport.do")
-	public ModelAndView readSupportLink(
-			@RequestParam(name="pageNo", defaultValue="1") int no) throws Exception 
+	public void readSupportLink(
+			@RequestParam(name="pageNo", defaultValue="1") int no, Model model) throws Exception 
 	{
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("supportList", supportLinkService.readSupportLink(new Page(no)));
-		return mav;
+		model.addAttribute("supportList", supportLinkService.readSupportLink(new SupportLink(no)));
 	}
 	
 	@RequestMapping("/supportlink/deleteSupport.do")
