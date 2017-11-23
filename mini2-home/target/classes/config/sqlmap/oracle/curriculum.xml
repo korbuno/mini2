@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.CurriculumMapper">
+	<resultMap id="curriculumMap" type="curriculum">
+		<result column="board_no" property="boardNo" />
+		<result column="write" property="write" />
+		<result column="title" property="title" />
+		<result column="contents" property="contents" />
+		<result column="reg_date" property="regDate" />
+		<result column="category_no" property="categoryNo" />
+		<result column="member_no" property="memberNo" />
+	</resultMap>
+
+	<insert id="insertCurriculum" parameterType="curriculum">
+ 		insert into board(
+			board_no, 
+			write, 
+			title,
+			contents,
+			category_no,
+			member_no
+		) values ( 
+			board_no.nextval, 
+		    #{write}, #{title}, #{contents}, #{categoryNo}, #{memberNo}
+		)
+	</insert>
+	
+	<update id="modifyCurriculum" parameterType="curriculum">
+	    update board(
+	    	set title =  #{title},
+	    		contents = #{contents}
+	    where board_no = #{boardNo} and category_no = #{categoryNo}	    
+	</update>
+	
+	<delete id="deleteCurriculum" parameterType="curriculum">
+		delete
+		  from board
+	  	 where board_no = #{boardNo} and category_no = #{categoryNo}	   
+	</delete>
+	
+	<select id="detailCurriculum" parameterType="curriculum" resultMap="curriculumMap">
+		select * 
+		  from board
+	  	 where board_no = #{boardNo} and category_no = #{categoryNo}	 
+	</select>
+	
+	<select id="readCurriculum" resultMap="curriculumMap" parameterType="curriculum">
+	  	select * 
+	  		from(select rownum rnum, a.*
+	  			from (select *
+	  				from board
+	  				where category_no = #{categoryNo}
+	  			order by board_no desc)a)
+	  		where rnum between ? and ?
+	</select>
+	
+	<select id="totalCurriculum" resultType="int">
+		select count(*) from board
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.MembershipMapper">
+	<resultMap id="membershipMap" type="membership">
+		<result column="member_no" property="memberNo" />
+		<result column="contents" property="contents" />
+		<result column="no" property="no" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+
+	<insert id="insertMemberComment" parameterType="membership">
+ 		insert into membership(
+			no, 
+			contents, 
+			member_no 
+		) values ( 
+			member_no.nextval, 
+		    #{contents}, #{memberNo}
+		)
+	</insert>
+	
+	<update id="modifyMemberComment" parameterType="int">
+	   update membership 
+	      set contents = #{contents}
+	      where no = #{no}
+	</update>
+	
+	<delete id="deleteMemberComment" parameterType="int">
+		delete
+		  from membership
+	  	 where no = #{no}
+	</delete>
+	
+	<select id="detailMemberComment" parameterType="int" resultMap="membershipMap">
+		select * 
+		  from membership
+	  	 where no = #{no}
+	</select>
+	
+	<select id="readMemberComment" resultMap="membershipMap" parameterType="membership">
+	  	select * 
+	  		from(select rownum rnum, a.*
+	  			from (select *
+	  				from membership
+	  				where member_no = #{memberNo}
+	  			order by no desc)a)
+	  		where rnum between #{begin} and #{end}
+	</select>
+	
+	<select id="totalMembershipComment" resultType="int">
+		select count(*) from membership
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
