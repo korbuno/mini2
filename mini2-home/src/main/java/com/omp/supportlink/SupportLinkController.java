@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.omp.common.Page;
 import com.omp.repository.domain.SupportLink;
 import com.omp.repository.mapper.SupportLinkMapper;
-import com.omp.service.SupportLinkService;
+import com.omp.repository.service.SupportLinkService;
 
 @Controller
 public class SupportLinkController 

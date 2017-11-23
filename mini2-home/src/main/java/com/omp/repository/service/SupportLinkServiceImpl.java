@@ -1,4 +1,4 @@
-package com.omp.service;
+package com.omp.repository.service;
 
 import java.util.List;
 
