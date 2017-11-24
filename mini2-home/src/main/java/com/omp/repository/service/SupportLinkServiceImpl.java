@@ -34,8 +34,8 @@ public class SupportLinkServiceImpl implements SupportLinkService
 		return null;
 	}
 
-	public void insertSupportLink() throws Exception {
-		
+	public void insertSupportLink(SupportLink supportLink) throws Exception {
+		mapper.insertSupportLink(supportLink);
 		
 	}
 

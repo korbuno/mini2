@@ -19,6 +19,6 @@ public interface SupportLinkService
 	
 	public SupportLinkMapper modifySupportLink() throws Exception;
 	
-	public void insertSupportLink() throws Exception;
+	public void insertSupportLink(SupportLink supportLink) throws Exception;
 }
  

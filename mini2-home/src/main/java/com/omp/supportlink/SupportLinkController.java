@@ -1,5 +1,6 @@
 package com.omp.supportlink;
 
+import java.security.Provider.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class SupportLinkController
 		model.addAttribute("supportList", supportLinkService.readSupportLink(new SupportLink(no)));
 	}*/
 	
+	//ajax 로 값을 return
 	@RequestMapping("/supportlink/readSupport.json")
 	@ResponseBody
 	public List<SupportLink> readSupportLink(
@@ -38,6 +40,7 @@ public class SupportLinkController
 		return supportLinkService.readSupportLink(new SupportLink(no));
 	}
 	
+	//주소로 이동
 	@RequestMapping("/supportlink/readSupport.do")
 	public void readSupportLink() throws Exception{}
 	
@@ -53,10 +56,13 @@ public class SupportLinkController
 		return null;
 	}
 	
+	
 	@RequestMapping("/supportlink/insertSupport.do")
-	public void insertSupportLink() throws Exception
+	@ResponseBody
+	public List<SupportLink> insertSupportLink(SupportLink supportLink) throws Exception
 	{
-		
+		supportLinkService.insertSupportLink(supportLink);
+		return supportLinkService.readSupportLink(new SupportLink(1));
 	}
 }
 

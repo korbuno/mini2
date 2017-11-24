@@ -15,7 +15,7 @@
 			site 
 		) values ( 
 			support_link_seq.nextval, 
-		    #{supportNo}, #{site}
+		    #{title}, #{site}
 		)
 	</insert>
 	
