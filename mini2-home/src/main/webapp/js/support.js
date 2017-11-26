@@ -4,26 +4,17 @@
 
 var path = "/mini2-home";
 
-$("button").click(function(e){
-	$.ajax({
-		type : "POST",
-		url : "insertSupport.do",
-		data : $("#frm").serialize(),
-		dataType : "json",
-		success : function(data) {
-			callAjax();
-			$("input").val("")
-		}
-	});			
-	
-})
+
+
 
 $(document).ready(function() {
 	callAjax();
+	
 })
 
 function callAjax()
 {
+	
 	$.ajax({
 		url : path+"/supportlink/readSupport.json",
 		dataType : "json",
@@ -39,7 +30,13 @@ $(window).on("resize", function(e){
 	/*console.log($(this).width())
 	console.log($("#listBox").width())*/
 	//$("#listBox").top($(this).height() / 2)
-	console.log($("#listBox").top);
+	/*$("#baseContainer").offset({top:$(this).height() / 2 - $("#baseContainer").height() / 2, 
+								  left : $(this).width() / 2 - $("#baseContainer").width() / 2});*/
+	
+	var x = $(this).width() / 2 - $("#baseContainer").width() / 2;
+	var y = $(this).height() / 2 - $("#baseContainer").height() / 2;
+	TweenMax.to( $("#listBox"), 1, { left: x, top : y } );
+
 })
 
 

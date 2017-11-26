@@ -5,12 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/mini2-home/css/support.css" />
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous">
 </script>
+<link rel="stylesheet" type="text/css" href="/mini2-home/css/support.css" />
 
 <script src="/mini2-home/js/support.js"></script>
 
@@ -38,8 +39,26 @@
 	<form id="frm">
 		타이틀 : <input type="text" name="title">
 		사이트 : <input type="text" name="site">
-		<button type="button">버튼</button>
+		<button id="submitButton" type="button">버튼</button>
 	</form>
+	
+	<script type="text/javascript">
+		
+	
+		$("#submitButton").click(function(e){
+			console.log("ddd")
+			$.ajax({
+				type : "POST",
+				url : "insertSupport.do",
+				data : $("#frm").serialize(),
+				dataType : "json",
+				success : function(data) {
+					callAjax();
+					$("input").val("")
+				}
+			});			
+		})
+	</script>
 
 </body>
 </html>
