@@ -6,16 +6,34 @@ html, body
 	height: 100%;
 }
 
-#baseContainer
+.backLayer 
 {
-	position: absolute;
-    background: #ffffff;
-    width: 600px;
-    height: 400px; 
+	display:none;
+	background-color:black;
+	position:absolute;
+	left:0px;
+	top:0px;
 }
 
 
-#listBox 
+#baseContainer
+{
+	position: absolute;
+	width: 600px;
+	margin: 0 auto;
+}
+
+#contentContainer
+{
+	position: absolute;
+}
+
+#titleContainer
+{
+	position: absolute;
+}
+
+.listBox 
 {
 	position: absolute;
     border-radius: 5px 15px;
