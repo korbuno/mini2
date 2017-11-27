@@ -33,13 +33,21 @@
 		
 	</div>
 	
-	<div class="backLayer"></div>
+	<div class="backLayer">
+		<div class="inBlackLayer"></div>
+		
+		
+		<div id="writePopup">
+			<form id="frm">
+				<input type="text" name="title" placeholder="TITLE"><br>
+				<input type="text" name="site" placeholder="SITE LINK"><br>
+				<button id="submitButton" type="button">버튼</button>
+			</form>
+		</div>
+		
+	</div>
 	
-	<form id="frm">
-			타이틀 : <input type="text" name="title">
-			사이트 : <input type="text" name="site">
-			<button id="submitButton" type="button">버튼</button>
-		</form>
+	
 	
 </body>
 </html>

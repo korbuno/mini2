@@ -24,9 +24,9 @@ public class SupportLinkServiceImpl implements SupportLinkService
 		return mapper.readSupportLink(supportLink);
 	}
 
-	public void deleteSupportLink() throws Exception {
+	public void deleteSupportLink(int supportNo) throws Exception {
 		
-		
+		mapper.deleteSupportLink(supportNo);
 	}
 
 	public SupportLinkMapper modifySupportLink() throws Exception {

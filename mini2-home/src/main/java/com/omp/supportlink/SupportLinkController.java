@@ -44,10 +44,12 @@ public class SupportLinkController
 	@RequestMapping("/supportlink/readSupport.do")
 	public void readSupportLink() throws Exception{}
 	
-	@RequestMapping("/supportlink/deleteSupport.do")
-	public void deleteSupportLink() throws Exception
+	@RequestMapping("/supportlink/deleteSupport.json")
+	@ResponseBody
+	public List<SupportLink>  deleteSupportLink(int supportNo) throws Exception
 	{
-		
+		supportLinkService.deleteSupportLink(supportNo);
+		return supportLinkService.readSupportLink(new SupportLink(1));
 	}
 	
 	@RequestMapping("/supportlink/modifySupport.do")

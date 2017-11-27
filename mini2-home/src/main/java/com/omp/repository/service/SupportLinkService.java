@@ -15,7 +15,7 @@ public interface SupportLinkService
 	
 	public List<SupportLink> readSupportLink(SupportLink supportLink) throws Exception;
 	
-	public void deleteSupportLink() throws Exception;
+	public void deleteSupportLink(int supportNo) throws Exception;
 	
 	public SupportLinkMapper modifySupportLink() throws Exception;
 	

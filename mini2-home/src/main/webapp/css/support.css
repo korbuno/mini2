@@ -9,6 +9,10 @@ html, body
 .backLayer 
 {
 	display:none;
+}
+
+.inBlackLayer 
+{
 	background-color:black;
 	position:absolute;
 	left:0px;
@@ -33,6 +37,16 @@ html, body
 	position: absolute;
 }
 
+#writePopup
+{
+	position: absolute;
+	border-radius: 5px 15px;
+	background-color:red;
+	width : 600px;
+	height : 90px;
+}
+
+
 .listBox 
 {
 	position: absolute;
@@ -40,4 +54,34 @@ html, body
     background: #73AD21;
     width: 600px;
     height: 30px; 
+    
 } 
+
+input
+{
+	margin-left: 15%;
+	width: 400px;
+}
+
+button
+{
+	position: absolute;
+    left: 45%;
+    top: 60%;
+}
+
+a
+{
+	font-family: arial;
+	font-weight: bold;
+	font-size: 1em;
+	margin-left: 10px;
+}
+
+a:link {text-decoration: none; color: #333333;}
+a:visited {text-decoration: none; color: #333333;}
+a:active {text-decoration: none; color: #333333;}
+a:hover {text-decoration: underline; color: black;}
+
+
+

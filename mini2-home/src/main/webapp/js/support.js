@@ -21,12 +21,12 @@ $(document).ready(function() {
 			data : $("#frm").serialize(),
 			dataType : "json",
 			success : function(data) {
-				callAjax();
+				callAjax(path+"/supportlink/readSupport.json", null);
 				$("input").val("")
 			}
 		});			
 	})
-	callAjax();
+	callAjax(path+"/supportlink/readSupport.json", null);
 	setTitleAlign();
 	
 })
@@ -37,15 +37,18 @@ function setTitleAlign()
 	//TweenMax.to( $("#titleContainer"), 1, { left: x, } );
 }
 
-function callAjax()
+function callAjax(url, param)
 {
-	
+	$("#contentContainer").empty();
+	containerH = $("#titleContainer").height();
 	$.ajax({
-		url : path+"/supportlink/readSupport.json",
+		url : url,
+		data : {supportNo: param},
 		dataType : "json",
 		success : (data) => 
 		{				
 			dataList = data;
+			
 			for(var i = 0; i < dataList.length; i++)
 			{
 				makeList(i, dataList[i].site);
@@ -58,9 +61,10 @@ function callAjax()
 
 function makeList(i, link)
 {
-	$("#contentContainer").append("<div id=contentContainer"+i+" class='listBox'>" + link + "</div>")
+	$("#contentContainer").append("<div id=contentContainer"+i+" class='listBox'></div>")
 	
-	$("div#contentContainer"+i).append("<div id=modify" + i + " class='modify' value='aaaaa'>수정</div>")
+	$("div#contentContainer"+i).append("<a target='_blank' href=" + link + ">" + link + "</a>")
+							   .append("<div id=modify" + i + " class='modify' value='aaaaa'>수정</div>")
 			   				   .append("<div id=delete" + i + "  class='delete'>삭제</div>");
 	
 	$(".modify").css({ position : "absolute",
@@ -85,12 +89,15 @@ function makeList(i, link)
 	$("#modify" + i).attr("data-id", i);
 	$("#modify" + i).click(function(){
 		console.log($(this).data("id"))
-		controlBackLayer();
+		$(".backLayer").css("display","block");
+		controlinBlackLayer();
+		controlPopup();
 	})
 	
 	$("#delete" + i).attr("data-id", i);
 	$("#delete" + i).click(function(){
-		console.log($(this).data("id"))
+		console.log(dataList[$(this).data("id")].supportNo)
+		callAjax(path+"/supportlink/deleteSupport.json", dataList[$(this).data("id")].supportNo);
 	})
 	
 	
@@ -103,17 +110,27 @@ function makeList(i, link)
 	if(i == dataList.length - 1) $(window).trigger("resize");
 }
 
-function controlBackLayer()
+function controlPopup()
+{
+	var windowWidth = $( window ).width();
+	var windowHeight = $( window ).height();
+	
+	let x = windowWidth / 2 - $("#writePopup").width() / 2;
+	let y = windowHeight / 2 - $("#writePopup").height() / 2;
+	
+	TweenMax.to($("#writePopup"), 1, { left : x, top : y});
+}
+
+function controlinBlackLayer()
 {
 	var width = $(window).width();
     var height = $(window).height();
      
     //화면을 가리는 레이어의 사이즈 조정
-    $(".backLayer").width(width);
-    $(".backLayer").height(height);
-    $(".backLayer").fadeTo(500, .7);
-
-   // TweenMax.to( $(".backLayer"), 1, { opacity : 1 } );
+    $(".inBlackLayer").width(width);
+    $(".inBlackLayer").height(height);
+    $(".inBlackLayer").css("opacity", 0);
+    TweenMax.to( $(".inBlackLayer"), 1, { opacity : .7 } );
 }
 
 $(window).on("resize", function(e){
@@ -125,8 +142,8 @@ $(window).on("resize", function(e){
     var height = $(window).height();
      
     //화면을 가리는 레이어의 사이즈 조정
-    $(".backLayer").width(width);
-    $(".backLayer").height(height);
+    $(".inBlackLayer").width(width);
+    $(".inBlackLayer").height(height);
 })
 
 
