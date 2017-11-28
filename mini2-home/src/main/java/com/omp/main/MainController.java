@@ -36,11 +36,4 @@ public class MainController {
 		mainService.updateTodayDeal(board);
 	}
 
-//	public void detail() throws Exception {
-//		Member member = mainService.detail();
-//		System.out.println("회원 정보");
-//		System.out.println("===================================");
-//		System.out.println(member);
-//	}
-
 }

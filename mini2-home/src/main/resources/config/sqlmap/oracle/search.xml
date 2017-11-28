@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.SearchMapper">
+	<resultMap id="boardMap" type="board">
+		<result column="board_no" property="boardNo" />
+		<result column="writer" property="writer" />
+		<result column="title" property="title" />
+		<result column="contents" property="contents" />
+		<result column="reg_date" property="regDate" />
+		<result column="category_no" property="categoryNo" />
+		<result column="member_no" property="memberNo" />
+	</resultMap>
+	
+	<select id="searchBoard" parameterType="search" resultMap="boardMap">
+		select * from (
+			select board.*, rownum as rn 
+			from board where 
+			<if test="option == 'title'">title</if>
+			<if test="option == 'writer'">writer</if>
+			<if test="option == 'contents'">contents</if>
+			<if test="option == 'titleContents'">title like '%'||#{target}||'%' or contents</if>
+			 like '%'||#{target}||'%'
+			<if test="when != null">and reg_date between
+				<if test="when == 'when1'">sysdate - 15</if>
+				<if test="when == 'when2'">sysdate - 30</if>
+				<if test="when == 'when3'">sysdate - 90</if>
+				<if test="when == 'when4'">sysdate - 180</if>
+				<if test="when == 'when5'">sysdate - 365</if>
+				<if test="when == 'when6'">sysdate - 730</if>
+				and sysdate
+			</if>
+			order by reg_date
+		) where rn between 1 and 7
+	</select>
+	
+<!-- 	 <select id="listStaff" parameterType="staff" resultMap="staffMap"> -->
+    
+<!--     	SELECT distinct s.staff_no, s.staff_name,  -->
+<!--  		 substr('여남', mod(substr(s.jumin_no,8,1),2)+1, 1) as "gender", -->
+<!--  		 cr.religion_name, s.graduate_day -->
+<!--  		FROM staff s,  -->
+<!--  		code_religion cr,  -->
+<!--  		code_school cs, -->
+<!--  		staff_skill ss -->
+<!--  		 where s.religion_code = cr.religion_code -->
+<!--  		 and s.school_code = cs.school_code -->
+<!--  		 and s.staff_no = ss.staff_no -->
+
+ 		 
+<!--  		 <if test="staffName != null"> -->
+<!-- 	 		and s.staff_name like '%'||#{staffName}||'%' -->
+<!--  		 </if> -->
+ 		 
+<!--  		 <if test="genders != null" > -->
+<!--  		 	and (mod(substr(s.jumin_no,8,1),2)+1) in -->
+<!--  		 	<foreach collection="genders" item="gender" -->
+<!--  		 		open="(" separator="," close=")"> -->
+<!--  		 		#{gender} -->
+<!--  		 	</foreach> -->
+<!--  		 </if> -->
+ 		 
+<!--  		 <if test="skillCodes != null" > -->
+<!--  		 and ss.skill_code in -->
+<!--  		 <foreach collection="skillCodes" item="skillCode" -->
+<!--  				open="(" separator="," close=")"> -->
+<!--  		 		#{skillCode} -->
+<!--  		 </foreach> -->
+<!--  		 </if> -->
+
+<!--  		 <if test="schoolCodes != null" > -->
+<!--  		 and cs.school_code in -->
+<!--  		 <foreach collection="schoolCodes" item="schoolCode" -->
+<!--  				open="(" separator="," close=")"> -->
+<!--  		 		#{schoolCode} -->
+<!--  		</foreach> -->
+<!--  		</if> -->
+ 		
+<!--  		 <if test="religionCode != 0"> -->
+<!-- 	 		and s.religion_code =  #{religionCode} -->
+<!--  		 </if> -->
+ 		 
+<!--  		 <if test="fromDate != null and toDate != null"> -->
+<!-- 	  		 and to_date(s.graduate_day, 'yyyy-mm-dd') between -->
+<!-- 	  		 to_date(#{fromDate}, 'yyyymmdd') and to_date(#{toDate}, 'yyyymmdd') -->
+<!--  		 </if> -->
+<!-- 		 order by s.staff_no -->
+<!--  	</select>	 -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

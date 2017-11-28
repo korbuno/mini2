@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 
 <body>
@@ -11,22 +13,46 @@
 	</div>
 	<div class="col-lg-6">
 	    <div class="input-group">
-	      <input type="text" class="form-control" placeholder="Search for...">
+	      <input type="text" class="form-control" id="target" placeholder="Search for...">
 	      <span class="input-group-btn">
-	        <button class="btn btn-default" type="button">
+	        <button id="search" class="btn btn-default" type="button">
 	        <i class="fa fa-search fa-spin" aria-hidden="true"></i>&nbsp;검색</button>
 	      </span>
 	    </div>
-	    <a class="serchDetailBtn" id="serchDetailBtnHidden" href="javascript:viewSerchDetail();" >
-  			<img alt="상세 검색" style="color: white; text-shadow: 0 0 2px black;">
-  		</a>
-	    <div class = "serach-detail" id="serachTypeHidden">
-	    	<span>
-		 		<label><input type="checkbox" value="">작성자</label>
-				<label><input type="checkbox" value="">제목</label>
-				<label><input type="checkbox" value="">아이디</label>
-	    	</span>
+	    <!-- 검색결과 창 -->
+	    <div class="result_container"></div>
+	  
+	  <button onclick="document.getElementById('serchDetail').style.display='block'" class="w3-button w3-black" style="float: right;">검색옵션 설정</button>
+	  <div id=serchDetail class="w3-modal w3-animate-opacity">
+	    <div class="w3-modal-content w3-card-4">
+	      <header class="w3-container w3-teal"> 
+	        <span onclick="document.getElementById('serchDetail').style.display='none'" 
+	        class="w3-button w3-large w3-display-topright">&times;</span>
+	        <h2>옵션을 설정해주세요</h2>
+	      </header>
+	      <div class="w3-container" align="center">
+	      	<p>
+		        <span>
+		        	<select id="option">
+		        		<option value="title">제목</option>
+		        		<option value="writer">작성자</option>
+		        		<option value="contents">내용</option>
+		        		<option value="titleContents">제목+내용</option>
+		        	</select>
+		        	<select id="when">
+			        	<option value="when1">최근 15일 동안</option>
+			        	<option value="when2">최근 1개월 동안</option>
+			        	<option value="when3">최근 3개월 동안</option>
+			        	<option value="when4">최근 6개월 동안</option>
+			        	<option value="when5">1년 이상 전 동안</option>
+			        	<option value="when6">2년 이상 전 동안</option>
+		        	</select>
+		    	</span>
+	    	</p>
+	      </div>
 	    </div>
+	  </div>
+
 	</div>
 	<div class="logform" style="z-index: 3000" >
 		<div class="w3-container">
@@ -63,6 +89,7 @@
 </div>
 	<script>
 	
+	
 	// 검색창 모션
 	function viewSerchDetail(){
 		var $serachDetail = $(".serach-detail");
@@ -76,6 +103,83 @@
 			$serchDetailBtn.attr("id", "serachBtnHidden");				
 		}
 	}
+
+	var path = '${pageContext.request.contextPath}';
+
+	$("#search").click(function (e) {
+		$.ajax({
+			url: path + "/search/search.json",
+			data: "target="+$("#target").val()+"&option="+$("#option > option:selected").val(),
+			success: function(data) {
+				$(".result_container > table").html("");
+				var tableStart = "<table class='searchList'>";
+				var tableEnd = "</table>";
+				var tableContents = "";
+				if(data.length == 0){
+					tableContents = "<tr><th>검색된 결과가 없습니다.</th><td>";
+				}
+
+				console.log($("#option > option:selected").val());
+				
+				for (let ele of data) {
+					var date = new Date(ele.regDate).toLocaleDateString();
+					
+					tableContents += 
+					"<tr><th>글쓴이</th><td>"+ele.writer+
+					"</td>"+
+					"<th>제목</th><a href='#'><td>"+ele.title+
+					"</td></a>"+
+					"<th>날짜</th><td>"+date+
+					"</td></tr>";
+				}
+				$(".result_container").append(tableStart + tableContents + tableEnd);
+				$(".result_container > table").fadeToggle();
+			}
+
+		});
+	});
+	
+	$("#target").keyup(function (e) {
+			$.ajax({
+				url: path + "/search/search.json",
+				data: "target="+$("#target").val()+
+					  "&option="+$("#option > option:selected").val()+
+					  "&when="+$("#when > option:selected").val(),
+				success: function(data) {
+					$(".result_container").html("");
+					var tableStart = "<table class='searchList'>";
+					var tableEnd = "</table>";
+					var tableContents = "";
+					
+					if(data.length == 0){
+						tableContents = "<tr><th>검색된 결과가 없습니다.</th><td>";
+					}
+					
+					for (let ele of data) {
+						var date = new Date(ele.regDate).toLocaleDateString();
+						
+						tableContents += 
+						"<tr onclick='#'><th>글쓴이</th><td>"+ele.writer+
+						"</td>"+
+						"<th>제목</th><td>"+ele.title+
+						"</td>"+
+						"<th>날짜</th><td>"+date+
+						"</td></tr>";
+					}
+					$(".result_container").append(tableStart + tableContents + tableEnd);
+					$(".result_container > table").fadeToggle();
+				}
+
+			});
+		});
+	
+	$("#target").focusout(function () {
+		$(".result_container > table").fadeToggle();
+	});
+	
+	$("#target").focusin(function () {
+		$(".result_container > table").fadeToggle();
+	});
 	</script>
 </body>
 </html>

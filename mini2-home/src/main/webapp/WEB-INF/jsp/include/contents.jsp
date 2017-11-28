@@ -33,6 +33,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+			<button class="hover" style="float: right;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>더보기</button>
 			</div>
 		</div>
 	</div>
@@ -50,7 +51,7 @@
 				</div>
 				<button
 					onclick="document.getElementById('notice').style.display='block'"
-					class="w3-button w3-black">수정</button>
+					class="w3-button w3-black">작성</button>
 			</div>
 		</div>
 	</div>
@@ -70,7 +71,7 @@
 				</div>
 				<button
 					onclick="document.getElementById('todayDeal').style.display='block'"
-					class="w3-button w3-black">수정</button>
+					class="w3-button w3-black">작성</button>
 			</div>
 		</div>
 	</div>
@@ -107,7 +108,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="tile tile-lg tile-sqr tile-amber ripple-effect">
 		<div class="content-wrapper">
 			<div class="tile-content">
@@ -148,7 +149,7 @@
 				type="text" style="width: 870px; height: 200px;" placeholder="내용 입력">
 		</div>
 		<p>
-			<button id="noticeWrite" class="w3-button w3-black w3-round-large">입력</button>
+			<button id="noticeWrite" class="w3-button w3-black w3-round-large">작성</button>
 		</p>
 	</div>
 </div>
@@ -187,25 +188,20 @@
 	});
 
 	$("#todayDealWrite")
-			.on(
-					"click",
-					function(e) {
-						$
-								.ajax({
-									url : path + "/main/todayDeal.json",
-									data : "contents="
-											+ $("#todayDealForm").val()
-											+ "&categoryNo=7&title="
-											+ $("#todayDealTitleForm").val(),
-									success : function() {
-										document.getElementById('todayDeal').style.display = 'none';
-										$("#todayDealContents").text(
-												$("#todayDealForm").val());
-										$("#todayDealTitle").text(
-												$("#todayDealTitleForm").val());
-									}
-								});
-					});
+			.on("click", function(e) {
+					$.ajax({
+						url : path + "/main/todayDeal.json",
+						data : "contents="
+								+ $("#todayDealForm").val()
+								+ "&categoryNo=7&title="
+								+ $("#todayDealTitleForm").val(),
+						success : function() {
+							document.getElementById('todayDeal').style.display = 'none';
+							$("#todayDealContents").text($("#todayDealForm").val());
+							$("#todayDealTitle").text($("#todayDealTitleForm").val());
+				}
+			});
+	});
 
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
@@ -362,6 +358,11 @@
 			th.classList.add("calendar");
 			th.innerHTML = "SMTWTFS"[i];
 			th.style = "width=15px";
+			if (i == 0) {
+				th.style = "color : red";
+			} else if (i == 6) {
+				th.style = "color : blue";
+			}
 			tr.appendChild(th);
 		}
 		table.appendChild(tr);
@@ -387,6 +388,11 @@
 			td.classList.add("calendar");
 			processDay(td, calendarDate, dayNumber);
 			td.innerHTML = dayNumber;
+			if (i == 0) {
+				td.style = "color : red";
+			} else if (i == 6) {
+				td.style = "color : blue";
+			}
 			dayNumber++;
 			tr.appendChild(td);
 		}
@@ -403,6 +409,11 @@
 				}
 				var td = document.createElement('td');
 				td.classList.add("calendar");
+				if (i == 0) {
+					td.style = "color : red";
+				} else if (i == 6) {
+					td.style = "color : blue";
+				}
 				processDay(td, calendarDate, dayNumber);
 				td.innerHTML = dayNumber;
 				dayNumber++;

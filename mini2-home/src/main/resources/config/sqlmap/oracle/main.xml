@@ -23,9 +23,9 @@
 	<select id="selectNewlyBoard" resultMap="boardMap">
 		select * from (
 			select board.*, rownum as rn 
-			from board where category_no between 1 and 5
+			from board where category_no between 1 and 7
 			order by reg_date
-		) where rn between 1 and 5
+		) where rn between 1 and 7
 	</select>
 	
 	<update id="updateNotice" parameterType="board">
