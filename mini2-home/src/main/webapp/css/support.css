@@ -57,6 +57,20 @@ html, body
     
 } 
 
+
+#writeButton 
+{
+	position : absolute;
+	border-radius: 5px 15px;
+	background: #ffa2a2;
+	width : 80px;
+	height : 24px;  
+	top: 100%;
+	left: 86%;
+	text-align: center;
+} 
+
+
 input
 {
 	margin-left: 15%;

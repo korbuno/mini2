@@ -14,6 +14,7 @@ $(document).ready(function() {
 	TweenMax.to($("#contentContainer"), .5, { top : containerH })
 	TweenMax.to($("#titleContainer"), .5, { left : $("#baseContainer").width() / 2 - 
                                                    $("#titleContainer").width() / 2 })
+                                                   
 	$("#submitButton").click(function(e){
 		$.ajax({
 			type : "POST",
@@ -21,6 +22,7 @@ $(document).ready(function() {
 			data : $("#frm").serialize(),
 			dataType : "json",
 			success : function(data) {
+				setBackLayerControl("none");
 				callAjax(path+"/supportlink/readSupport.json", null);
 				$("input").val("")
 			}
@@ -28,6 +30,11 @@ $(document).ready(function() {
 	})
 	callAjax(path+"/supportlink/readSupport.json", null);
 	setTitleAlign();
+	writeButtonControll();
+	setBackLayerMouseEvent();
+	 let x = $(this).width() / 2 - $("#baseContainer").width() / 2;
+	let y = $(this).height() / 2 - $("#baseContainer").height() / 2;
+	TweenMax.to( $("#baseContainer"), 0, { left: x, top : y } ); 
 	
 })
 
@@ -73,7 +80,8 @@ function makeList(i, link)
 					  width : "46px",
 					  height : "24px",
 					  left : "499px",
-					  top : "3px"});
+					  top : "3px",
+					  textAlign: "center"});
 	
 	$(".delete").css({ position : "absolute",
 					   borderRadius: "5px 15px",
@@ -81,7 +89,8 @@ function makeList(i, link)
 					   width : "46px",
 					   height : "24px",
 					   left : "549px",
-					   top : "3px"});
+					   top : "3px",
+					   textAlign: "center"});
 	
 	//$(".modify").addClass("listBox") // 미리 준비된 클래스 가져다 쓰기
 	
@@ -89,7 +98,7 @@ function makeList(i, link)
 	$("#modify" + i).attr("data-id", i);
 	$("#modify" + i).click(function(){
 		console.log($(this).data("id"))
-		$(".backLayer").css("display","block");
+		setBackLayerControl("block");
 		controlinBlackLayer();
 		controlPopup();
 	})
@@ -131,6 +140,29 @@ function controlinBlackLayer()
     $(".inBlackLayer").height(height);
     $(".inBlackLayer").css("opacity", 0);
     TweenMax.to( $(".inBlackLayer"), 1, { opacity : .7 } );
+    
+}
+
+function writeButtonControll()
+{
+	
+	$("#writeButton").click(function(){
+		setBackLayerControl("block");
+		controlinBlackLayer();
+		controlPopup();
+	})
+}
+
+function setBackLayerMouseEvent()
+{
+	 $(".inBlackLayer").click(function(){
+		 setBackLayerControl("none")
+    })
+}
+
+function setBackLayerControl(mode)
+{
+	$(".backLayer").css("display", mode)
 }
 
 $(window).on("resize", function(e){
@@ -144,6 +176,8 @@ $(window).on("resize", function(e){
     //화면을 가리는 레이어의 사이즈 조정
     $(".inBlackLayer").width(width);
     $(".inBlackLayer").height(height);
+    
+    if($(".backLayer").css("display") != "none") controlPopup();
 })
 
 
