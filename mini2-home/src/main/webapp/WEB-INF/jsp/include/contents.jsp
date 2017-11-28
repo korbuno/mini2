@@ -17,7 +17,7 @@
 					<thead>
 						<tr>
 							<th data-sort="name">작성자</th>
-							<th data-sort="name">제목</th>
+							<th data-sort="title">제목</th>
 							<th data-sort="date">날짜</th>
 						</tr>
 					</thead>

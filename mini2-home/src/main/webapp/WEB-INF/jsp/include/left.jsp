@@ -16,7 +16,7 @@
 	  <div class="w3-container w3-display-container w3-padding-16">
 	    <h3 class="w3-wide"><b>Yang Im Yun Lee</b></h3>
 	  </div>
-    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-bell fa-fw" aria-hidden="true"></i>&nbsp;오늘의 내기</a>
+    <a href="${pageContext.request.contextPath}/notice/list.do" class="w3-bar-item w3-button"><i class="fa fa-bell fa-fw" aria-hidden="true"></i>&nbsp;공지사항</a>
     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp;수업 게시판</a>
     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;질문 게시판</a>
     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i>&nbsp;커리큘럼 게시판</a>
