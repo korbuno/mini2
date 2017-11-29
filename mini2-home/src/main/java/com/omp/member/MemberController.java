@@ -1,11 +1,20 @@
 package com.omp.member;
 
+import java.net.URLEncoder;
+import java.util.Date;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.omp.repository.domain.Member;
 import com.omp.repository.service.MemberService;
 
 @Controller
@@ -13,38 +22,46 @@ import com.omp.repository.service.MemberService;
 public class MemberController {
 
 	@Autowired
-	private MemberService memberService; // 자동으로 주입
+	private MemberService memberService;
 	
-	/*@Autowired
-	private JavaMailSender mailSender;
-
-	public void sendMail(String from, String to, String subject, String text, String formUrl)
-			throws FileNotFoundException, URISyntaxException {
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-
-			message.setFrom(new InternetAddress(from));
-			message.addRecipient(RecipientType.TO, new InternetAddress(to));
-			message.setSubject(subject);
-			message.setText(text, "utf-8", "html");
-
-			mailSender.send(message);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
 	@RequestMapping("/main.do")
-	public String main(Model model) throws Exception {
+	public String main() throws Exception {
 		return "member/main";
 	}
 	
+	@RequestMapping("/login.do")
+	public String login(Model model) throws Exception {
+		return "member/login";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/login.json")
+	public boolean loginAjax(Member member, boolean chk, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		member = memberService.login(member);
+		if (member != null) {
+			Cookie c = new Cookie("id", null);
+			c.setMaxAge(0);
+			
+			if (chk) {
+				c = new Cookie("id", URLEncoder.encode(member.getId(), "utf-8"));
+				c.setMaxAge(60*60*24);
+				response.addCookie(c);
+			}
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("user", member);
+			
+			return true;
+		} else return false;
+	}
+
 	@ResponseBody
 	@RequestMapping("/main.json")
 	public boolean mainAjax(String id) throws Exception {
-		if (memberService.jungBok(id) == null) return true;
-		else return false;
+		if (memberService.jungBok(id) == null)
+			return true;
+		else
+			return false;
 	}
 
 }

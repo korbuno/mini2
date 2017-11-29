@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/include/mir.jsp" %>
 <%@ include file="/WEB-INF/jsp/include/include.jsp" %>
 <style>
 div:not(.line){border:1px solid black; background: white;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.omp.repository.domain.ClassBoard;
 import com.omp.repository.domain.Study;
 import com.omp.repository.mapper.StudyMapper;
 
@@ -21,7 +22,6 @@ public class StudyServiceImpl implements StudyService {
 	
 	@Override
 	public void titleInsert(Study study) throws Exception {
-		System.out.println(study);
 		mapper.titleInsert(study);
 	}
 	
@@ -33,5 +33,25 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public List<Study> dayTitleList(String day) throws Exception {
 		return mapper.dayTitleList(day);
+	}
+	
+	@Override
+	public List<ClassBoard> classBoardList(Integer no) throws Exception {
+		return mapper.classBoardList(no);
+	}
+	
+	@Override
+	public int classNo() throws Exception {
+		return mapper.classNo();
+	}
+	
+	@Override
+	public int classBoardNo() throws Exception {
+		return mapper.classBoardNo();
+	}
+	
+	@Override
+	public void classBoardInsert(ClassBoard board) throws Exception {
+		mapper.classBoardInsert(board);
 	}
 }

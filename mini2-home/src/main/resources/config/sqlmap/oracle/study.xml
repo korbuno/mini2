@@ -9,55 +9,77 @@
 		<result column="class_reg_date" property="classRegDate" />
 	</resultMap>
 
+	<resultMap type="classBoard" id="classBoardMap">
+		<result column="board_no" property="boardNo" />
+		<result column="writer" property="writer" />
+		<result column="title" property="title" />
+		<result column="contents" property="contents" />
+		<result column="reg_date" property="regDate" />
+		<result column="category_no" property="categoryNo" />
+		<result column="class_no" property="classNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="look" property="look" />
+	</resultMap>
+
 	<select id="monthTitleList" parameterType="String" resultMap="studyMap">
 		select l.* from
 		(select min(c.class_no) as class_no from
-		class c where substr(c.class_reg_date, 1, 5) = #{classRegDate} group by c.class_reg_date) c
+		class c where
+		substr(c.class_reg_date, 1, 5) = #{classRegDate} group by
+		c.class_reg_date) c
 		inner join class l
 		on c.class_no = l.class_no
 	</select>
-	
+
 	<insert id="titleInsert" parameterType="study">
-		insert into class (class_no, class_title, class_reg_date)
-		values (class_seq.nextval, #{classTitle}, #{classRegDate})
+		insert into class
+		(class_no, class_title, class_reg_date)
+		values (
+		<choose>
+			<when test="classNo == null">
+			class_seq.nextval
+			</when>
+			<otherwise>
+			#{classNo}
+			</otherwise>
+		</choose>
+		,#{classTitle}, #{classRegDate})
 	</insert>
-	
+
 	<update id="titleUpdate" parameterType="study">
-		update class set class_title = #{classTitle} where class_no = #{classNo}
+		update class set
+		class_title = #{classTitle} where class_no = #{classNo}
 	</update>
-	
+
 	<select id="dayTitleList" parameterType="String" resultMap="studyMap">
-		select * from(select class_no, class_title, rownum a from class where class_reg_date = #{classRegDate} order by class_no asc) where a between 1 and 3
+		select class_no, class_title from
+		(select class_no, class_title, rownum a from class where
+		class_reg_date = #{classRegDate} order by class_no asc) where a = 1 or a between 2 and 7
+	</select>
+
+	<select id="classBoardList" parameterType="int" resultMap="classBoardMap">
+		select * from class_board where class_no = #{classNo} order by reg_date desc
 	</select>
 	
+	<select id="classNo" resultType="int">
+		select class_seq.nextval from dual
+	</select>
+	
+	<select id="classBoardNo" resultType="int">
+		select board_no.nextval from dual
+	</select>
+	
+	<select id="classBoardInsert" parameterType="classBoard" resultType="int">
+		insert into class_board (board_no, writer, title, contents, category_no, class_no, member_no)
+		values (
+		<choose>
+			<when test="boardNo == null">
+			board_no.nextval
+			</when>
+			<otherwise>
+			#{boardNo}
+			</otherwise>
+		</choose>
+		, #{writer}, #{title}, #{contents}, #{categoryNo}, #{classNo}, #{memberNo})
+	</select>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

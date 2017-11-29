@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.omp.repository.domain.ClassBoard;
 import com.omp.repository.domain.Study;
 import com.omp.repository.service.StudyService;
 
@@ -34,8 +35,11 @@ public class StudyController {
 		if(day.equals("0") || Integer.parseInt(day) <= 100000) model.addAttribute("msg", "유효하지 않은 날짜입니다.");
 		else {
 			day = day.substring(0, 2)+"/"+day.substring(2, 4)+"/"+day.substring(4, 6);
-			System.out.println(day);
-			model.addAttribute("list", studyService.dayTitleList(day));
+			List<Study> list = studyService.dayTitleList(day);
+			for (Study s : list) {
+				s.setList(studyService.classBoardList(s.getClassNo()));
+			}
+			model.addAttribute("list", list);
 		}
 		return "study/day";
 	}
@@ -56,10 +60,33 @@ public class StudyController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/titleInsert.json")
-	public void titleInsert(Study study) throws Exception {
-		System.out.println("입력: "+study);
+	@RequestMapping("/insert.json")
+	public Map<String, Integer> insert(Study study, ClassBoard board) throws Exception {
+		board.setWriter("작성자");
+		board.setMemberNo(1);
+		int no = studyService.classNo();
+		int boardNo = studyService.classBoardNo();
+		board.setClassNo(no);
+		board.setBoardNo(boardNo);
+		board.setTitle("예시");
+		study.setClassNo(no);
+		String day = study.getClassRegDate();
+		study.setClassRegDate(day.substring(0, 2)+"/"+day.substring(2, 4)+"/"+day.substring(4, 6));
 		studyService.titleInsert(study);
+		studyService.classBoardInsert(board);
+		Map<String, Integer> map = new HashMap<>();
+		map.put("no", no);
+		map.put("boardNo", boardNo);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/titleInsert.json")
+	public int titleInsert(Study study) throws Exception {
+		int no = studyService.classNo();
+		study.setClassNo(no);
+		studyService.titleInsert(study);
+		return no;
 	}
 	
 	@ResponseBody
