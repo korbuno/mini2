@@ -3,6 +3,7 @@ package com.omp.repository.mapper;
 import com.omp.repository.domain.Member;
 
 public interface MemberMapper {
+	public String jungBok(String id) throws Exception;
 	public void insertMember(Member member) throws Exception; // 회원 등록
 	public void deleteMember(int no) throws Exception; // 회원 삭제
 	public Member modifyForm(int no) throws Exception; //회원 정보 수정폼

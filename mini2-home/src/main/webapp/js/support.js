@@ -3,9 +3,11 @@
  */
 "use strict";
 
-var path = "/mini2-home";
+let path = "/mini2-home";
 let dataList;
 let containerH = 0;
+let writeType = "write";
+let modifyId;
 
 
 
@@ -16,15 +18,24 @@ $(document).ready(function() {
                                                    $("#titleContainer").width() / 2 })
                                                    
 	$("#submitButton").click(function(e){
+		
+		if($("input[name='title']").val() == "" && $("input[name='site']").val() == "") 
+		{
+			alert("내용을 입력해 주세요!");
+			return;
+		}
+		
 		$.ajax({
 			type : "POST",
-			url : "insertSupport.do",
+			url : (writeType == "write") ? "insertSupport.do" : "modifySupport.do",
 			data : $("#frm").serialize(),
 			dataType : "json",
 			success : function(data) {
 				setBackLayerControl("none");
-				callAjax(path+"/supportlink/readSupport.json", null);
+				fieldEmpty();
 				$("input").val("")
+				callAjax(path+"/supportlink/readSupport.json", null);
+				
 			}
 		});			
 	})
@@ -32,9 +43,9 @@ $(document).ready(function() {
 	setTitleAlign();
 	writeButtonControll();
 	setBackLayerMouseEvent();
-	 let x = $(this).width() / 2 - $("#baseContainer").width() / 2;
-	let y = $(this).height() / 2 - $("#baseContainer").height() / 2;
-	TweenMax.to( $("#baseContainer"), 0, { left: x, top : y } ); 
+	let x = $(this).width() / 2 - $("#baseContainer").width() / 2;
+	let y = $(this).height() / 2 - $("#baseContainer").height() / 2; 
+	$("#baseContainer").css({top: y, left: x});
 	
 })
 
@@ -46,11 +57,11 @@ function setTitleAlign()
 
 function callAjax(url, param)
 {
-	$("#contentContainer").empty();
+	if(writeType == "write") $("#contentContainer").empty();
 	containerH = $("#titleContainer").height();
 	$.ajax({
 		url : url,
-		data : {supportNo: param},
+		data : param,
 		dataType : "json",
 		success : (data) => 
 		{				
@@ -58,9 +69,22 @@ function callAjax(url, param)
 			
 			for(var i = 0; i < dataList.length; i++)
 			{
-				makeList(i, dataList[i].site);
+				if(writeType == "write")
+				{
+					makeList(i, dataList[i].site);
+				} else 
+				{
+					console.log(modifyId, i)
+					if(modifyId == i)
+					{
+						$("div#contentContainer"+modifyId+"> a").text("");
+						$("div#contentContainer"+modifyId+"> a").removeAttr("href")
+						$("div#contentContainer"+modifyId+"> a").text(dataList[i].site);
+						$("div#contentContainer"+modifyId+"> a").attr("href", dataList[i].site)
+					}
+				}
 			}
-
+			
 		}
 	})
 }
@@ -97,16 +121,21 @@ function makeList(i, link)
 	
 	$("#modify" + i).attr("data-id", i);
 	$("#modify" + i).click(function(){
-		console.log($(this).data("id"))
+		writeType = "modify";
+		modifyId = $(this).data("id")
 		setBackLayerControl("block");
 		controlinBlackLayer();
 		controlPopup();
+		
+		$("input[name='supportNo']").val(dataList[$(this).data("id")].supportNo);
+		$("input[name='title']").val(dataList[$(this).data("id")].title);
+		$("input[name='site']").val(dataList[$(this).data("id")].site);
 	})
 	
 	$("#delete" + i).attr("data-id", i);
 	$("#delete" + i).click(function(){
 		console.log(dataList[$(this).data("id")].supportNo)
-		callAjax(path+"/supportlink/deleteSupport.json", dataList[$(this).data("id")].supportNo);
+		callAjax(path+"/supportlink/deleteSupport.json", {supportNo: dataList[$(this).data("id")].supportNo});
 	})
 	
 	
@@ -127,7 +156,8 @@ function controlPopup()
 	let x = windowWidth / 2 - $("#writePopup").width() / 2;
 	let y = windowHeight / 2 - $("#writePopup").height() / 2;
 	
-	TweenMax.to($("#writePopup"), 1, { left : x, top : y});
+	$("#writePopup").css({top: -500, left: x});
+	TweenMax.to($("#writePopup"), 1, { left : x, top : y, ease: Elastic.easeOut.config(1, 1)});
 }
 
 function controlinBlackLayer()
@@ -147,6 +177,7 @@ function writeButtonControll()
 {
 	
 	$("#writeButton").click(function(){
+		writeType = "write";
 		setBackLayerControl("block");
 		controlinBlackLayer();
 		controlPopup();
@@ -156,8 +187,21 @@ function writeButtonControll()
 function setBackLayerMouseEvent()
 {
 	 $(".inBlackLayer").click(function(){
-		 setBackLayerControl("none")
+		 fieldEmpty();
+		 TweenMax.to($("#writePopup"), 1, { top : $(window).height(), ease: Back.easeIn.config(2),
+			 								onComplete: complete});
     })
+}
+	 
+function complete()
+{
+	setBackLayerControl("none")
+}
+
+function fieldEmpty()
+{
+	$("input[name='title']").val("");
+	$("input[name='site']").val("");
 }
 
 function setBackLayerControl(mode)
@@ -167,7 +211,7 @@ function setBackLayerControl(mode)
 
 $(window).on("resize", function(e){
 	let x = $(this).width() / 2 - $("#baseContainer").width() / 2;
-	let y = $(this).height() / 2 - $("#baseContainer").height() / 2;
+	let y = $(this).height() / 2 - (($("#baseContainer").height() + 80) / 2);
 	TweenMax.to( $("#baseContainer"), 1, { left: x, top : y } );
 	
 	var width = $(window).width();

@@ -1,5 +1,8 @@
 package com.omp.repository.service;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.omp.common.Page;
@@ -14,7 +17,7 @@ public interface SupportLinkService
 	
 	public void deleteSupportLink(int supportNo) throws Exception;
 	
-	public SupportLinkMapper modifySupportLink() throws Exception;
+	public void modifySupportLink(SupportLink supportLink) throws Exception;
 	
 	public void insertSupportLink(SupportLink supportLink) throws Exception;
 }

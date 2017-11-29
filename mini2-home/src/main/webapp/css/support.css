@@ -73,6 +73,7 @@ html, body
 
 input
 {
+	margin-top: 5px;
 	margin-left: 15%;
 	width: 400px;
 }
@@ -81,7 +82,7 @@ button
 {
 	position: absolute;
     left: 45%;
-    top: 60%;
+    top: 65%;
 }
 
 a

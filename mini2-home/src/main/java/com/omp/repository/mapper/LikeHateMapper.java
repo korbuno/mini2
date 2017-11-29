@@ -1,5 +1,7 @@
 package com.omp.repository.mapper;
 
+import java.util.List;
+
 import com.omp.repository.domain.LikeHate;
 
 public interface LikeHateMapper 

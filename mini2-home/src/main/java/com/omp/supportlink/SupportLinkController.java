@@ -1,19 +1,14 @@
 package com.omp.supportlink;
 
-import java.security.Provider.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.omp.common.Page;
 import com.omp.repository.domain.SupportLink;
-import com.omp.repository.mapper.SupportLinkMapper;
 import com.omp.repository.service.SupportLinkService;
 
 @Controller
@@ -53,9 +48,12 @@ public class SupportLinkController
 	}
 	
 	@RequestMapping("/supportlink/modifySupport.do")
-	public SupportLinkMapper modifySupportLink() throws Exception
+	@ResponseBody
+	public List<SupportLink> modifySupportLink(SupportLink supportLink) throws Exception
 	{
-		return null;
+		System.out.println(supportLink.getSite());
+		supportLinkService.modifySupportLink(supportLink);
+		return supportLinkService.readSupportLink(new SupportLink(1));
 	}
 	
 	

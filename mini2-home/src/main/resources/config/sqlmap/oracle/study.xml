@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.StudyMapper">
+
+	<resultMap type="study" id="studyMap">
+		<result column="class_no" property="classNo" />
+		<result column="class_title" property="classTitle" />
+		<result column="class_reg_date" property="classRegDate" />
+	</resultMap>
+
+	<select id="monthTitleList" parameterType="String" resultMap="studyMap">
+		select l.* from
+		(select min(c.class_no) as class_no from
+		class c where substr(c.class_reg_date, 1, 5) = #{classRegDate} group by c.class_reg_date) c
+		inner join class l
+		on c.class_no = l.class_no
+	</select>
+	
+	<insert id="titleInsert" parameterType="study">
+		insert into class (class_no, class_title, class_reg_date)
+		values (class_seq.nextval, #{classTitle}, #{classRegDate})
+	</insert>
+	
+	<update id="titleUpdate" parameterType="study">
+		update class set class_title = #{classTitle} where class_no = #{classNo}
+	</update>
+	
+	<select id="dayTitleList" parameterType="String" resultMap="studyMap">
+		select * from(select class_no, class_title, rownum a from class where class_reg_date = #{classRegDate} order by class_no asc) where a between 1 and 3
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -42,7 +42,8 @@
 			<form id="frm">
 				<input type="text" name="title" placeholder="TITLE"><br>
 				<input type="text" name="site" placeholder="SITE LINK"><br>
-				<button id="submitButton" type="button">버튼</button>
+				<input type="hidden" name="supportNo" value="1"><br>
+				<button id="submitButton" type="button">확인</button>
 			</form>
 		</div>
 		

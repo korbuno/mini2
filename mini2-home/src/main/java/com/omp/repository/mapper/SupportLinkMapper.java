@@ -7,10 +7,10 @@ import com.omp.repository.domain.SupportLink;
 
 public interface SupportLinkMapper 
 {
-	public void insertSupportLink(SupportLink sld) throws Exception;
+	public void insertSupportLink(SupportLink supportLink) throws Exception;
 	public void deleteSupportLink(int supportNo) throws Exception;
-	public void modifySupportLink(int supportNo) throws Exception;
-	public List<SupportLink> readSupportLink(Page page) throws Exception;
+	public void modifySupportLink(SupportLink supportLink) throws Exception;
+	public List<SupportLink> readSupportLink(SupportLink supportLink) throws Exception;
 	public SupportLink detailSupportLink(int supportNo) throws Exception;
 	public int totalSupportLink() throws Exception;
 	

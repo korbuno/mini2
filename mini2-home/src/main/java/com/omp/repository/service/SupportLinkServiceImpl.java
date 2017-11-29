@@ -1,7 +1,11 @@
 package com.omp.repository.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.omp.common.Page;
@@ -25,9 +29,9 @@ public class SupportLinkServiceImpl implements SupportLinkService
 		mapper.deleteSupportLink(supportNo);
 	}
 
-	public SupportLinkMapper modifySupportLink() throws Exception {
+	public void modifySupportLink(SupportLink supportLink) throws Exception {
 		
-		return null;
+		mapper.modifySupportLink(supportLink);
 	}
 
 	public void insertSupportLink(SupportLink supportLink) throws Exception {
