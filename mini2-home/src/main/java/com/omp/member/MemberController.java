@@ -52,7 +52,17 @@ public class MemberController {
 			session.setAttribute("user", member);
 			
 			return true;
-		} else return false;
+		} else {
+			logout(request);
+			return false;
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/logout.json")
+	public void logout(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		session.invalidate();
 	}
 
 	@ResponseBody
