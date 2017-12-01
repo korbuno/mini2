@@ -89,19 +89,27 @@ select{height: 22px;}
 			
 			input();
 			
+			var siva = false;
+			
 			$("button.siba").click(function () {
-				if($("span.green").length == 7) {					
-					$.ajax({
-						url: path+"/member/insert.json",
-						data: $("#form").serialize(),
-						success: function () {
-							alert("가입 성공.")
-							location.href = path+"/member/email.do";
-						},
-						error: function () {
-							alert("에러 남");
-						}
-					});
+				if($("span.green").length == 7) {		
+					if(!siva) {						
+						$.ajax({
+							url: path+"/member/insert.json",
+							data: $("#form").serialize(),
+							beforesend: function () {
+								siva = true;
+							},
+							success: function () {
+								alert("가입 성공.")
+								location.href = path+"/member/email.do";
+							},
+							error: function () {
+								alert("에러 남");
+								siva = false;
+							}
+						});
+					}
 				}
 				else alert("빈 거 있음.");
 			});
