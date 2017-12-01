@@ -1,7 +1,5 @@
 package com.omp.repository.domain;
 
-import java.util.List;
-
 public class Study {
 
     private Integer classNo;
@@ -9,18 +7,8 @@ public class Study {
     private String classTitle;
 
     private String classRegDate;
-    
-    private List<ClassBoard> list;
-    
-	public List<ClassBoard> getList() {
-		return list;
-	}
 
-	public void setList(List<ClassBoard> list) {
-		this.list = list;
-	}
-
-	public Integer getClassNo() {
+    public Integer getClassNo() {
         return classNo;
     }
 

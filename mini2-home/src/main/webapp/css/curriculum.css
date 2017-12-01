@@ -1,0 +1,221 @@
+@CHARSET "UTF-8";
+
+html, body
+{
+	width: 100%;
+	height: 100%;
+}
+
+.backLayer 
+{
+	display:none;
+}
+
+.inBlackLayer 
+{
+	background-color:black;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+
+#baseContainer
+{
+	position: absolute;
+	width: 600px;
+	margin: 0 auto;
+}
+
+#contentContainer
+{
+	position: absolute;
+}
+
+#titleContainer
+{
+	position: absolute;
+	text-shadow: 5px 3px 4px #888888;
+}
+
+#writePopup
+{
+	position: absolute;
+	border-radius: 5px 15px;
+	background-color: #7cb7cc;
+	width : 600px;
+	height : 300px;
+}
+
+
+.listBox 
+{
+	position: absolute;
+    border-radius: 5px 15px;
+    background: #121900;
+    width: 600px;
+    height: 30px; 
+    transform: scaleX(0);
+    box-shadow: 7px 7px 8px #999999;
+} 
+
+
+#writeButton 
+{
+	position : absolute;
+	border-radius: 5px 15px;
+	background: #ffa2a2;
+	width : 80px;
+	height : 24px;  
+	top: 100%;
+	left: 86%;
+	text-align: center;
+	box-shadow: 7px 7px 8px #999999;
+} 
+
+
+input
+{
+	margin-top: 20px;
+	margin-left: 15%;
+	width: 400px;
+}
+
+textarea
+{
+	position: absolute;
+    left: 90px;
+    top: 50px;
+    resize: none;
+}
+
+button
+{
+	position: absolute;
+    left: 45%;
+    top: 86%;
+}
+
+a
+{
+	font-family: arial;
+	font-weight: bold;
+	font-size: 1em;
+	margin-left: 10px;
+}
+
+a:link {text-decoration: none; color: #333333;}
+a:visited {text-decoration: none; color: #333333;}
+a:active {text-decoration: none; color: #333333;}
+a:hover {text-decoration: underline; color: black;}
+
+.modify
+{ 
+	position : absolute;
+	border-radius: 5px 15px;
+	background: #ffa2a2;
+	width : 46px;
+	height : 24px;
+	left : 499px;
+	top : 3px;
+	text-align: center;
+}
+	
+.delete
+{ 
+	position : absolute;
+	border-radius: 5px 15px;
+	background: #f7f798;
+	width : 46px;
+	height : 24px;
+	left : 549px;
+	top : 3px;
+	text-align: center;
+}
+
+.noField
+{ 
+	position : absolute;
+	font-size : 14px;
+	font-weight: bold;
+	border-radius: 5px 15px;
+	background: #c4f57d;
+	width : 50px;
+	height : 24px;
+	left : 4px;
+	top : 3px;
+	text-align: center;
+}
+
+
+.title
+{ 
+	position : absolute;
+	border-radius: 5px 15px;
+	background: #80c7ff;
+	font-size : 14px;
+	font-weight: bold;
+	width : 324px;
+	height : 24px;
+	left : 58px;
+	top : 3px;
+	text-align: center;
+}
+
+.date
+{ 
+	position : absolute;
+	border-radius: 5px 15px;
+	background: #e47474;
+	font-size : 14px;
+	font-weight: bold;
+	letter-spacing: -2px;
+	width : 110px;
+	height : 24px;
+	left : 386px;
+	top : 3px;
+	text-align: center;
+}
+
+#like
+{
+	position : absolute;
+	width : 20px;
+	height : 22px;
+	left: 73%;
+    top: 86%;
+}
+
+#hate
+{
+	position : absolute;
+	width : 20px;
+	height : 22px;
+	left: 78%;
+    top: 86%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

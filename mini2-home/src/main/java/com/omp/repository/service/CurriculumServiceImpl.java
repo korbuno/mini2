@@ -46,9 +46,9 @@ public class CurriculumServiceImpl implements CurriculumService
 	}
 
 	@Override
-	public List<Curriculum> readCurriculum(Curriculum curriculum) throws Exception {
+	public List<Curriculum> readCurriculum() throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.readCurriculum(curriculum);
+		return mapper.readCurriculum();
 	}
 
 	@Override

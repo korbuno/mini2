@@ -4,16 +4,23 @@ import java.util.Date;
 
 import com.omp.common.Page;
 
-public class Curriculum extends Page
+public class Curriculum
 {
 	
-	int boardNo, categoryNo;
+	int boardNo, categoryNo, memberNo;
 	String writer, title, contents;
 	Date regDate;
 	
-	public Curriculum(int pageNo) 
+	public Curriculum() 
 	{
-		super(pageNo);
+	}
+	
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
 	
 	public int getBoardNo()

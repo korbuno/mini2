@@ -8,10 +8,13 @@ let dataList;
 let containerH = 0;
 let writeType = "write";
 let modifyId;
+let initBln = true;
 
 
 
 $(document).ready(function() {
+	
+	if(user == "") $("#writeButton").remove();
 	containerH = $("#titleContainer").height();
 	TweenMax.to($("#contentContainer"), .5, { top : containerH })
 	TweenMax.to($("#titleContainer"), .5, { left : $("#baseContainer").width() / 2 - 
@@ -31,14 +34,12 @@ $(document).ready(function() {
 			data : $("#frm").serialize(),
 			dataType : "json",
 			success : function(data) {
-				setBackLayerControl("none");
-				fieldEmpty();
-				$("input").val("")
-				callAjax(path+"/supportlink/readSupport.json", null);
-				
+				callAjax(path+"/supportlink/readSupport.json", null);				
 			}
 		});			
 	})
+	
+
 	callAjax(path+"/supportlink/readSupport.json", null);
 	setTitleAlign();
 	writeButtonControll();
@@ -46,6 +47,7 @@ $(document).ready(function() {
 	let x = $(this).width() / 2 - $("#baseContainer").width() / 2;
 	let y = $(this).height() / 2 - $("#baseContainer").height() / 2; 
 	$("#baseContainer").css({top: y, left: x});
+	
 	
 })
 
@@ -74,7 +76,6 @@ function callAjax(url, param)
 					makeList(i, dataList[i].site);
 				} else 
 				{
-					console.log(modifyId, i)
 					if(modifyId == i)
 					{
 						$("div#contentContainer"+modifyId+"> a").text("");
@@ -85,6 +86,8 @@ function callAjax(url, param)
 				}
 			}
 			
+			TweenMax.to($("#writePopup"), 1, { top : $(window).height(), ease: Back.easeIn.config(2),
+					onComplete: complete});
 		}
 	})
 }
@@ -94,58 +97,70 @@ function makeList(i, link)
 {
 	$("#contentContainer").append("<div id=contentContainer"+i+" class='listBox'></div>")
 	
-	$("div#contentContainer"+i).append("<a target='_blank' href=" + link + ">" + link + "</a>")
-							   .append("<div id=modify" + i + " class='modify' value='aaaaa'>수정</div>")
-			   				   .append("<div id=delete" + i + "  class='delete'>삭제</div>");
+	$("div#contentContainer"+i).append("<a target='_blank' href=" + link + ">" + link + "</a>");
 	
-	$(".modify").css({ position : "absolute",
-					  borderRadius: "5px 15px",
-					  background: "#ffa2a2",
-					  width : "46px",
-					  height : "24px",
-					  left : "499px",
-					  top : "3px",
-					  textAlign: "center"});
-	
-	$(".delete").css({ position : "absolute",
-					   borderRadius: "5px 15px",
-					   background: "#f7f798",
-					   width : "46px",
-					   height : "24px",
-					   left : "549px",
-					   top : "3px",
-					   textAlign: "center"});
-	
-	//$(".modify").addClass("listBox") // 미리 준비된 클래스 가져다 쓰기
-	
-	
-	$("#modify" + i).attr("data-id", i);
-	$("#modify" + i).click(function(){
-		writeType = "modify";
-		modifyId = $(this).data("id")
-		setBackLayerControl("block");
-		controlinBlackLayer();
-		controlPopup();
+	if(user != "")
+	{
+		$("div#contentContainer"+i).append("<div id=modify" + i + " class='modify' value='aaaaa'>수정</div>")
+		   .append("<div id=delete" + i + "  class='delete'>삭제</div>");
+
+		$(".modify").css({ position : "absolute",
+		borderRadius: "5px 15px",
+		background: "#ffa2a2",
+		width : "46px",
+		height : "24px",
+		left : "499px",
+		top : "3px",
+		textAlign: "center"});
 		
-		$("input[name='supportNo']").val(dataList[$(this).data("id")].supportNo);
-		$("input[name='title']").val(dataList[$(this).data("id")].title);
-		$("input[name='site']").val(dataList[$(this).data("id")].site);
-	})
-	
-	$("#delete" + i).attr("data-id", i);
-	$("#delete" + i).click(function(){
-		console.log(dataList[$(this).data("id")].supportNo)
-		callAjax(path+"/supportlink/deleteSupport.json", {supportNo: dataList[$(this).data("id")].supportNo});
-	})
+		$(".delete").css({ position : "absolute",
+		borderRadius: "5px 15px",
+		background: "#f7f798",
+		width : "46px",
+		height : "24px",
+		left : "549px",
+		top : "3px",
+		textAlign: "center"});
 	
 	
+	
+	
+		//$(".modify").addClass("listBox") // 미리 준비된 클래스 가져다 쓰기
+		
+		
+		$("#modify" + i).attr("data-id", i);
+		$("#modify" + i).click(function(){
+			$("#frm").append("<input type='hidden' name='supportNo' value='1'>");
+			writeType = "modify";
+			modifyId = $(this).data("id")
+			setBackLayerControl("block");
+			controlinBlackLayer();
+			controlPopup();
+			
+			$("input[name='supportNo']").val(dataList[$(this).data("id")].supportNo);
+			$("input[name='title']").val(dataList[$(this).data("id")].title);
+			$("input[name='site']").val(dataList[$(this).data("id")].site);
+		})
+		
+		$("#delete" + i).attr("data-id", i);
+		$("#delete" + i).click(function(){
+			callAjax(path+"/supportlink/deleteSupport.json", {supportNo: dataList[$(this).data("id")].supportNo});
+		})
+	
+	}
 	
 	var h = $(".listBox").height() + 10;
 	containerH += h;
 	$("#baseContainer").height(containerH);
-	TweenMax.to( $("#contentContainer"+i), 1, { top : (i * h) } );
+	TweenMax.to( $("#contentContainer"+i), 1, { top : (i * h), scaleX : 1, 
+                               ease: Elastic.easeOut.config(1, 1), delay : i / 10 });
 	
-	if(i == dataList.length - 1) $(window).trigger("resize");
+	 
+	if(initBln)
+	{
+		initBln = false;
+		$(window).trigger("resize");
+	}
 }
 
 function controlPopup()
@@ -187,7 +202,6 @@ function writeButtonControll()
 function setBackLayerMouseEvent()
 {
 	 $(".inBlackLayer").click(function(){
-		 fieldEmpty();
 		 TweenMax.to($("#writePopup"), 1, { top : $(window).height(), ease: Back.easeIn.config(2),
 			 								onComplete: complete});
     })
@@ -196,6 +210,10 @@ function setBackLayerMouseEvent()
 function complete()
 {
 	setBackLayerControl("none")
+	fieldEmpty();
+	$("input").val("")
+	$("input[name='supportNo']").remove();
+	$(window).trigger("resize");
 }
 
 function fieldEmpty()

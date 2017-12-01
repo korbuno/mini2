@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/include/mir.jsp" %>
 <%@ include file="/WEB-INF/jsp/include/include.jsp" %>
 <style>
 div:not(.line){border:1px solid black; background: white;
@@ -89,27 +88,19 @@ select{height: 22px;}
 			
 			input();
 			
-			var siva = false;
-			
 			$("button.siba").click(function () {
-				if($("span.green").length == 7) {		
-					if(!siva) {						
-						$.ajax({
-							url: path+"/member/insert.json",
-							data: $("#form").serialize(),
-							beforesend: function () {
-								siva = true;
-							},
-							success: function () {
-								alert("가입 성공.")
-								location.href = path+"/member/email.do";
-							},
-							error: function () {
-								alert("에러 남");
-								siva = false;
-							}
-						});
-					}
+				if($("span.green").length == 7) {					
+					$.ajax({
+						url: path+"/member/insert.json",
+						data: $("#form").serialize(),
+						success: function () {
+							alert("가입 성공.")
+							location.href = path+"/member/email.do";
+						},
+						error: function () {
+							alert("에러 남");
+						}
+					});
 				}
 				else alert("빈 거 있음.");
 			});

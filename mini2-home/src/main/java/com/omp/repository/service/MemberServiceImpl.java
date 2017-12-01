@@ -36,4 +36,9 @@ public class MemberServiceImpl implements MemberService {
 	public void up(String id) throws Exception {
 		mapper.up(id);
 	}
+	
+	@Override
+	public void memcha(Member member) throws Exception {
+		mapper.memcha(member);	
+	}
 }

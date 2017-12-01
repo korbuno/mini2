@@ -7,6 +7,7 @@ public interface MemberService {
 	public Member login(Member member) throws Exception;
 	public void insert(Member member) throws Exception;
 	public String memchk(Member member) throws Exception;
+	public void memcha(Member member) throws Exception;
 	public void up(String id) throws Exception;
 }
  

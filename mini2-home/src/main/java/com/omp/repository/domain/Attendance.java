@@ -4,16 +4,11 @@ import java.util.Date;
 
 import com.omp.common.Page;
 
-public class Attendance extends Page
+public class Attendance
 {
 	int attendanceNo, memberNo, attend;
 	String regDate;
 	Date regDateDetail;
-	
-	public Attendance(int pageNo)
-	{
-		super(pageNo);
-	}
 	
 	public int getAttendanceNo() 
 	{

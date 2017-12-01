@@ -8,4 +8,5 @@ public interface MemberMapper {
 	public void insert(Member member) throws Exception; // 회원 등록
 	public String memchk(Member member) throws Exception;
 	public void up(String id) throws Exception;
+	public void memcha(Member member) throws Exception;
 }

@@ -15,14 +15,14 @@
 			site 
 		) values ( 
 			support_link_seq.nextval, 
-		    #{supportNo}, #{site}
+		    #{title}, #{site}
 		)
 	</insert>
 	
 	<update id="modifySupportLink" parameterType="supportLink">
 	   update support_link 
 	      set title = #{title}, 
-	          site = #{site}, 
+	          site = #{site} 
 	    where support_no = #{supportNo}
 	</update>
 	

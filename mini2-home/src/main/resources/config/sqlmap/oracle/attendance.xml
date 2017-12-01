@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omp.repository.mapper.AttendanceMapper">
+	<resultMap id="attendanceMap" type="attendance">
+		<result column="attendance_no" property="attendanceNo" />
+		<result column="member_no" property="memberNo" />
+		<result column="attend" property="attend" />
+		<result column="reg_date" property="regDate" />
+		<result column="reg_date_detail" property="regDateDetail" />
+	</resultMap>
+	
+	<resultMap id="memberMap" type="member">
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="ID" property="id" />
+		<result column="PASS" property="pass" />
+		<result column="NAME" property="name" />
+		<result column="EMAIL1" property="email1" />
+		<result column="EMAIL2" property="email2" />
+		<result column="EMAIL_KEY" property="emailKey" />
+		<result column="FILE_NO" property="fileNo" />
+		<result column="ADDRESS" property="address" />
+		<result column="AUTHORITY" property="authority" />
+	</resultMap>
+
+	<update id="insertAttendance" parameterType="attendance">
+ 		update attendance
+	    	set attend = #{attend},
+	    		reg_date = sysdate,
+	    		reg_date_detail = sysdate
+	    where attendance_no = #{attendanceNo} 
+	</update>
+	
+	<update id="modifyAttendance" parameterType="attendance">
+	    update attendance
+	    	set attend =  #{attend}
+	    where attendance_no = #{attendanceNo}	    
+	</update>
+	
+	<select id="readAttendance" resultMap="attendanceMap">
+	  	select * from attendance
+	</select>	
+	
+	<select id="totalAttendance" resultType="int">
+		select count(*) from attendance
+	</select>
+	
+	<select id="readMember" resultMap="memberMap">
+		select * from member
+	</select>
+	
+	<select id="totalDay" resultType="int">
+		SELECT COUNT(*) totalDay
+		  FROM (SELECT TO_CHAR(sdt + LEVEL - 1, 'yyyymmdd') dt
+		             , TO_CHAR(sdt + LEVEL - 1, 'd') d
+		          FROM (SELECT TO_DATE('20170721', 'yyyymmdd') sdt
+		                     , TO_DATE('20180121', 'yyyymmdd') edt
+		                  FROM dual)
+		        CONNECT BY LEVEL  &lt;= edt - sdt + 1 
+		        ) a
+		     ,  (SELECT '20170724' dt, 'special' cmt FROM dual) b
+		 WHERE a.dt = b.dt(+)
+		   AND a.d NOT IN ('1', '7')
+		   AND b.dt IS NULL  
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

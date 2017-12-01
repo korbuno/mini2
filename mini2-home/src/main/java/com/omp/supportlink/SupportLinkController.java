@@ -61,6 +61,7 @@ public class SupportLinkController
 	@ResponseBody
 	public List<SupportLink> insertSupportLink(SupportLink supportLink) throws Exception
 	{
+		System.out.println(supportLink);
 		supportLinkService.insertSupportLink(supportLink);
 		return supportLinkService.readSupportLink(new SupportLink(1));
 	}

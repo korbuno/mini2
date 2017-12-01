@@ -12,6 +12,11 @@
   crossorigin="anonymous">
 </script>
 <link rel="stylesheet" type="text/css" href="/mini2-home/css/support.css" />
+
+<script type="text/javascript">
+	var user = "${user.id}";
+</script>
+
 <script src="/mini2-home/js/support.js"></script>
 
 </head>
@@ -22,7 +27,7 @@
 	<div id="baseContainer">
 	
 		<div id="titleContainer">
-			<h1>CURRICULUM</h1>
+			<h1>SUPPORT LINK</h1>
 		</div>
 		
 		<div id="contentContainer">
@@ -42,7 +47,6 @@
 			<form id="frm">
 				<input type="text" name="title" placeholder="TITLE"><br>
 				<input type="text" name="site" placeholder="SITE LINK"><br>
-				<input type="hidden" name="supportNo" value="1"><br>
 				<button id="submitButton" type="button">확인</button>
 			</form>
 		</div>

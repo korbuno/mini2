@@ -17,7 +17,7 @@ public interface CurriculumService
 	public void insertCurriculum(Curriculum curriculum) throws Exception;
 	public void deleteCurriculum(Curriculum curriculum) throws Exception;
 	public void modifyCurriculum(Curriculum curriculum) throws Exception;
-	public List<Curriculum> readCurriculum(Curriculum curriculum) throws Exception;
+	public List<Curriculum> readCurriculum() throws Exception;
 	public Curriculum detailCurriculum(Curriculum curriculum) throws Exception;
 	public int totalMembershipComment() throws Exception;
 }
