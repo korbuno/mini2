@@ -61,7 +61,15 @@ public class MemberController {
 	@RequestMapping("/emailcha.json")
 	public boolean emailcha(Member member) throws Exception {
 		if (memberService.memchk(member) != null) {
-			memberService.up(member.getId());
+			Random r = new Random();
+			String ra = "";
+			for (int i = 0; i < 6; i++) {
+				int ran = r.nextInt(11171)+44033;
+				ra += (char)ran;
+			}
+			member.setEmailKey(ra);
+			memberService.memcha(member);
+			mailService.sendMail("im490113@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
 			return true;
 		} else {
 			return false;

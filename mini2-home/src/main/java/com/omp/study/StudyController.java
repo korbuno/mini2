@@ -3,8 +3,8 @@ package com.omp.study;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -42,6 +42,7 @@ public class StudyController {
 	@RequestMapping("/detail.do")
 	public String detail(int no, Model model) throws Exception {
 		model.addAttribute("board", studyService.classBoardDetail(no));
+		model.addAttribute("file", studyService.fileList(no));
 		studyService.up(no);
 		return "study/detail";
 	}
@@ -102,9 +103,10 @@ public class StudyController {
 	
 	@ResponseBody
 	@RequestMapping("/write.json")
-	public List<ClassBoard> wirte(ClassBoard board, HttpServletRequest request) throws Exception {
-		HttpSession session = request.getSession();
+	public List<ClassBoard> wirte(ClassBoard board, MultipartHttpServletRequest mRequest) throws Exception {
+		HttpSession session = mRequest.getSession();
 		Member member = (Member)session.getAttribute("user");
+		
 		board.setWriter(member.getName());
 		board.setMemberNo(member.getMemberNo());
 		board.setCategoryNo(1);
@@ -112,32 +114,28 @@ public class StudyController {
 		board.setBoardNo(no);
 		studyService.classBoardInsert(board);
 		
-		MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest)request;
+		File folder = new File("C:\\LEE\\jsp\\mini2-home\\upload");
+		if (!folder.isDirectory()) folder.mkdirs();
+	
+		Iterator<String> fileNames = mRequest.getFileNames();
 		
-		Enumeration<String> fileNames = mRequest.getAttributeNames();
-		
-		String folder = "C:\\LEE\\jsp\\mini2-home\\upload\\";
-		
-		while (fileNames.hasMoreElements()) {
-			String s = fileNames.nextElement();
-			System.out.println(s);
-			MultipartFile mFile = mRequest.getFile(s);
+		while (fileNames.hasNext()) {
+			MultipartFile mFile = mRequest.getFile(fileNames.next());
 			String oriName = mFile.getOriginalFilename();
 			String ext = oriName.substring(oriName.lastIndexOf("."));
 			String sysName = UUID.randomUUID().toString()+ext;
-			long size = mFile.getSize();
-
-			mFile.transferTo(new File(folder+sysName+ext));
+			long size = mFile.getSize();			
+			FileBoard fileDomain = new FileBoard();			
 			
-			FileBoard file = new FileBoard();
+			fileDomain.setBoardNo(no);
+			fileDomain.setFilePath(folder.getPath());
+			fileDomain.setFileSize(size);
+			fileDomain.setOriginalName(oriName);
+			fileDomain.setSystemName(sysName);
 			
-			file.setBoardNo(no);
-			file.setFilePath(folder);
-			file.setFileSize(size);
-			file.setOriginalName(oriName);
-			file.setSystemName(sysName);
+			studyService.file(fileDomain);
 			
-			studyService.file(file);
+			mFile.transferTo(new File(folder.getPath()+"\\"+sysName));
 		}
 		
 		return studyService.classBoardList(board.getClassNo());
