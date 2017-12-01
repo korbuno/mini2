@@ -21,5 +21,19 @@ public class MemberServiceImpl implements MemberService {
 	public Member login(Member member) throws Exception {
 		return mapper.login(member);
 	}
-
+	
+	@Override
+	public void insert(Member member) throws Exception {
+		mapper.insert(member);
+	}
+	
+	@Override
+	public String memchk(Member member) throws Exception {
+		return mapper.memchk(member);
+	}
+	
+	@Override
+	public void up(String id) throws Exception {
+		mapper.up(id);
+	}
 }

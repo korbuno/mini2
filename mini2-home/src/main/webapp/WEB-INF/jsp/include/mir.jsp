@@ -6,3 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="shrotcut icon" href="https://ssl.gstatic.com/onebox/media/sports/logos/cGrvIuBYzj4D6KFLPV1MBg_48x48.png">
 <title>LOTTE GIANTS</title>
+<style>
+html{background-color: white !important;}
+</style>

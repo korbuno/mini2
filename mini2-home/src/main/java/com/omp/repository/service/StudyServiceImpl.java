@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omp.repository.domain.ClassBoard;
+import com.omp.repository.domain.FileBoard;
 import com.omp.repository.domain.Study;
 import com.omp.repository.mapper.StudyMapper;
 
@@ -53,5 +54,20 @@ public class StudyServiceImpl implements StudyService {
 	@Override
 	public void classBoardInsert(ClassBoard board) throws Exception {
 		mapper.classBoardInsert(board);
+	}
+	
+	@Override
+	public ClassBoard classBoardDetail(int no) throws Exception {
+		return mapper.classBoardDetail(no);
+	}
+	
+	@Override
+	public void up(int no) throws Exception {
+		mapper.up(no);
+	}
+	
+	@Override
+	public void file(FileBoard file) throws Exception {
+		mapper.file(file);
 	}
 }

@@ -10,6 +10,7 @@ input{width:65px; text-align: center;}
 .sun{color: red;}
 .sat{color: blue;}
 td > div:first-child{font-weight: bold;}
+tr:first-child > td{height: 20px; font-size: 20px; font-weight: bold;}
 </style>
 <body>
 	<h1></h1>
@@ -26,6 +27,16 @@ td > div:first-child{font-weight: bold;}
 	var path = '${pageContext.request.contextPath}';
 	
 	document.onload = makeDal();
+	
+	function ciba() {
+		var tr = $("<tr>");
+		var siba = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+		for (var i = 0; i < siba.length; i++) {
+			tr.append($("<td>").text(siba[i]));
+		}
+		$("tbody").append(tr);
+	}
+	
 	
 	function event (civ) {
 		$("div.title").click(function () {			
@@ -137,12 +148,15 @@ td > div:first-child{font-weight: bold;}
 			date = new Date();
 			date.setDate(1);
 			$("tbody").empty();
+			ciba();
 			civ = true;
 		} else if(date) {
 			$("tbody").empty();
+			ciba();
 		} else {
 			var date = new Date();
 			date.setDate(1);
+			ciba();
 		}
 		nowDate = date;
 		
@@ -172,7 +186,7 @@ td > div:first-child{font-weight: bold;}
 		for (var i = 0; i < yoil; i++) {
 			var dd = prevDay;
 			if (dd.toString().length == 1) dd = "0"+dd;
-			$("tr:eq(0)").append("<td class='prev'><div>"+prevDay+++"</div><div class='title' id='"+pyy+"/"+(mm-1)+"/"+(dd-1)+"'></div></td>");
+			$("tr:eq(1)").append("<td class='prev'><div>"+prevDay+++"</div><div class='title' id='"+pyy+"/"+(mm-1)+"/"+(dd-1)+"'></div></td>");
 		}
 		for (var i = 1; i <= 7-yoil; i++) {
 			var dd = i;
@@ -180,9 +194,9 @@ td > div:first-child{font-weight: bold;}
 			var str = yy+"/"+mm+"/"+dd;
 			var dayHtml = $("<td>").append($("<div>").text(i)).append($("<div>").addClass("title").attr("id", str)).append("<button type='button' class='titleSubmit'>제출</button>");
 			if(i == 7-yoil) dayHtml.addClass("sat");
-			$("tr:eq(0)").append(dayHtml);
+			$("tr:eq(1)").append(dayHtml);
 		}
-		var weekCnt = 1;
+		var weekCnt = 2;
 		$("table").append("<tr>");
 		var week = $("tr:eq("+weekCnt+")")
 		

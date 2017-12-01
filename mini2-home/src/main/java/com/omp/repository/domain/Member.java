@@ -118,6 +118,10 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "아이디: "+id+" 비밀번호: "+pass;
+		return "Member [memberNo=" + memberNo + ", id=" + id + ", pass=" + pass + ", name=" + name + ", email1="
+				+ email1 + ", email2=" + email2 + ", emailKey=" + emailKey + ", fileNo=" + fileNo + ", address="
+				+ address + ", authority=" + authority + "]";
 	}
+
+	
 }

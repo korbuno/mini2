@@ -1,10 +1,16 @@
 package com.omp.study;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.omp.repository.domain.ClassBoard;
+import com.omp.repository.domain.FileBoard;
+import com.omp.repository.domain.Member;
 import com.omp.repository.domain.Study;
 import com.omp.repository.service.StudyService;
 
@@ -27,6 +37,13 @@ public class StudyController {
 	@RequestMapping("/main.do")
 	public String main() throws Exception {
 		return "study/main";
+	}
+	
+	@RequestMapping("/detail.do")
+	public String detail(int no, Model model) throws Exception {
+		model.addAttribute("board", studyService.classBoardDetail(no));
+		studyService.up(no);
+		return "study/detail";
 	}
 	
 	@RequestMapping("/day.do")
@@ -59,11 +76,14 @@ public class StudyController {
 		return map;
 	}
 	
+//	타이틀 + 예시 입력
 	@ResponseBody
 	@RequestMapping("/insert.json")
-	public Map<String, Integer> insert(Study study, ClassBoard board) throws Exception {
-		board.setWriter("작성자");
-		board.setMemberNo(1);
+	public Map<String, Integer> insert(Study study, ClassBoard board, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("user");
+		board.setWriter(member.getName());
+		board.setMemberNo(member.getMemberNo());
 		int no = studyService.classNo();
 		int boardNo = studyService.classBoardNo();
 		board.setClassNo(no);
@@ -71,7 +91,7 @@ public class StudyController {
 		board.setTitle("예시");
 		study.setClassNo(no);
 		String day = study.getClassRegDate();
-		study.setClassRegDate(day.substring(0, 2)+"/"+day.substring(2, 4)+"/"+day.substring(4, 6));
+		if(day.length() == 6) study.setClassRegDate(day.substring(0, 2)+"/"+day.substring(2, 4)+"/"+day.substring(4, 6));
 		studyService.titleInsert(study);
 		studyService.classBoardInsert(board);
 		Map<String, Integer> map = new HashMap<>();
@@ -81,10 +101,55 @@ public class StudyController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("/write.json")
+	public List<ClassBoard> wirte(ClassBoard board, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("user");
+		board.setWriter(member.getName());
+		board.setMemberNo(member.getMemberNo());
+		board.setCategoryNo(1);
+		int no = studyService.classBoardNo();
+		board.setBoardNo(no);
+		studyService.classBoardInsert(board);
+		
+		MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest)request;
+		
+		Enumeration<String> fileNames = mRequest.getAttributeNames();
+		
+		String folder = "C:\\LEE\\jsp\\mini2-home\\upload\\";
+		
+		while (fileNames.hasMoreElements()) {
+			String s = fileNames.nextElement();
+			System.out.println(s);
+			MultipartFile mFile = mRequest.getFile(s);
+			String oriName = mFile.getOriginalFilename();
+			String ext = oriName.substring(oriName.lastIndexOf("."));
+			String sysName = UUID.randomUUID().toString()+ext;
+			long size = mFile.getSize();
+
+			mFile.transferTo(new File(folder+sysName+ext));
+			
+			FileBoard file = new FileBoard();
+			
+			file.setBoardNo(no);
+			file.setFilePath(folder);
+			file.setFileSize(size);
+			file.setOriginalName(oriName);
+			file.setSystemName(sysName);
+			
+			studyService.file(file);
+		}
+		
+		return studyService.classBoardList(board.getClassNo());
+	}
+	
+	@ResponseBody
 	@RequestMapping("/titleInsert.json")
 	public int titleInsert(Study study) throws Exception {
 		int no = studyService.classNo();
 		study.setClassNo(no);
+		String day = study.getClassRegDate();
+		if(day.length() == 6) study.setClassRegDate(day.substring(0, 2)+"/"+day.substring(2, 4)+"/"+day.substring(4, 6));
 		studyService.titleInsert(study);
 		return no;
 	}
@@ -92,6 +157,8 @@ public class StudyController {
 	@ResponseBody
 	@RequestMapping("/titleUpdate.json")
 	public void titleUpdate(Study study) throws Exception {
+		String day = study.getClassRegDate();
+		if(day.length() == 6) study.setClassRegDate(day.substring(0, 2)+"/"+day.substring(2, 4)+"/"+day.substring(4, 6));
 		studyService.titleUpdate(study);
 	}
 }

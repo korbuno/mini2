@@ -16,6 +16,7 @@ div[contenteditable=true] {
 	color: gray;
 	overflow: auto;
 }
+
 div.title {
 	width: 530px;
 	height: 50px;
@@ -23,84 +24,92 @@ div.title {
 	text-align: center;
 	padding-top: 1vh;
 }
-div.title > div {
-    width: 530px;
-    height: 22px;
+
+div.title>div {
+	width: 530px;
+	height: 22px;
 }
+
 div.listBox {
 	margin-top: 20px;
 }
+
 div.list {
 	overflow: hidden;
 	padding: 0.5vh;
-	background: aliceblue; width: 30vw;
+	background: aliceblue;
+	width: 30vw;
 	margin-right: 2.7vw;
 	display: inline-block;
 	line-height: initial;
 }
+
 div.list>div:first-child {
-	width: 22vw;
+	width: 59%;
 	display: inline-block;
 	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
+
 div.list>div.object {
 	font-size: 3vh;
-    border-bottom: 1px solid black;
-    height: 5vh;
-    margin-left: 1vw;
-    font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+	border-bottom: 1px solid black;
+	height: 5vh;
+	margin-left: 1vw;
+	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
+
 div.list button {
-	float:right;
+	float: right;
 }
+
 div.line {
 	margin-top: 10px;
 	width: 100%;
 	height: 2px;
 	background: black;
 }
+
 div.tt {
 	width: 30vw;
 	height: 18px;
 }
+
 div.ttt {
 	overflow: auto;
 	height: 377px;
-    width: 450px;
+	width: 450px;
 }
 </style>
 		<body>
 			<div class="title">
 				<div contenteditable="true" class="classTitle">
-					${list[0].classTitle }
-				</div>
+					${list[0].classTitle }</div>
 				<img class="plus"
-				src="https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png"
-				width="18" style="float: right; margin: 0px 2px 0px 2px;">
-				<img class="sub"
-				src="https://maxcdn.icons8.com/Share/icon/color/User_Interface//submit_progress1600.png"
-				width="18" style="float: right; margin: 0px 2px 0px 2px;">
+					src="https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png"
+					width="18" style="float: right; margin: 0px 2px 0px 2px;"> <img
+					class="sub"
+					src="https://maxcdn.icons8.com/Share/icon/color/User_Interface//submit_progress1600.png"
+					width="18" style="float: right; margin: 0px 2px 0px 2px;">
 			</div>
-
 			<div class="listBox">
-				<c:forEach begin="1" end="${list.size() }" var="i">
-					<div class="list">
-						<div>${list[(i-1)].classTitle }</div>
-						<c:if test="${empty user }">
-							<button>수정</button>
-						</c:if>
-						<button class="ii">글쓰기</button>
-						<div class="line"></div>
-						<c:forEach begin="0" end="9" var="z">
-							<div class="object">${list[(i-1)].list[z].title }</div>				
-						</c:forEach>
-					</div>
-				</c:forEach>
+				<c:if test="${list.size() > 1 }">
+					<c:forEach begin="1" end="${list.size()-1 }" var="i">
+						<div class="list">
+							<div data-no="${list[i].classNo }">${list[i].classTitle }</div>
+							<button type='button'>수정</button>
+							<button type='button' class="ii">글쓰기</button>
+							<div class="line"></div>
+							<c:forEach begin="0" end="9" var="z">
+								<div class="object" data-no="${list[i].list[z].boardNo }">${list[i].list[z].title }</div>
+							</c:forEach>
+						</div>
+					</c:forEach>
+				</c:if>
 			</div>
 
 			<script>
@@ -111,17 +120,86 @@ div.ttt {
 					$(".title").css({"margin-left": w+'px'});
 				}
 				
+				function ob() {
+					$(".object:not([data-no=''])").click(function () {
+						location.href = path+"/study/detail.do?no="+$(this).attr("data-no")
+					})
+				}
+				
 				document.onload = re();
+				document.onload = ob();
+				document.onload = ii();
+				
+				function ii() {
+					var iiChk = false;
+					$(".ii").click(function () {
+						if(iiChk) return;
+						iiChk = true;
+						var title = $(this).prev().prev().text();
+						var no = $(this).prev().prev().attr("data-no");
+						var list = $($(this).parent());
+						list.find(".object").remove();
+						list.append($("<div>").addClass("ttt").attr({"contenteditable": "true"}).text('내용을 입력하세요.'));
+						$(this).prev().remove();
+						$(this).prev().attr("contenteditable", "true").text("제목을 입력하세요.");
+						$(this).before($("<input>").attr({"type": "file", "multiple": "true", "id": "file"}));
+						$(this).parent().wrap($("<form>").attr("enctype", "multipart/form-data"));
+						$(this).text("제출").attr("class", "oo");
+						oo(title, no);
+					});
+				}
+				
+				function oo(title, no) {
+					$(".oo").click(function () {
+						var t = $(this).parent();
+						var formData = new FormData();
+						formData.append("title", $(this).prev().prev().text());
+						formData.append("contents", $(this).next().next().text());
+						formData.append("classNo", no);
+						for (var i = 0; i < $("#file")[0].files.length; i++) {
+							formData.append("attachFile"+i, $("#file")[0].files[i]);
+						}
+
+						$.ajax({
+							url: path+"/study/write.json",
+							data: formData,
+							processData: false,
+							contentType: false,
+							type: 'POST',
+							success: function (data) {
+								console.log(data)
+								t.empty();
+								var l = t.append($("<div>").text(title).attr("data-no", no));
+							
+								if (!sessionStorage.getItem("user"))
+								l.append($("<button type='button'>").text("수정"));
+							
+								l.append($("<button type='button'>").text("글쓰기").addClass("ii"))
+								.append($("<div>").addClass("line"));
+								
+								for (var i = 0; i < data.length; i++) {
+									l.append($("<div>").addClass("object").text(data[i].title).attr("data-no", data[i].boardNo));
+								}							
+								
+								for (var i = 0; i < 9-data.length; i++) {
+									l.append($("<div>").addClass("object"));
+								}
+								ob();
+							}
+						});
+					})
+				}
 				
 				$(window).resize(function () {
 					re();
 				});
-
+				
 				if ($(".classTitle").text().trim() == "") $(".classTitle").attr("data-bool", "false");
 				else {
 					$(".classTitle").attr("data-bool", "true");
 					$(".classTitle").attr("data-no", "${list[0].classNo}");
 				}
+				
 				
 				var chk = false;
 				
@@ -156,7 +234,7 @@ div.ttt {
 						chk = true;
 						
 						var table = $("<div>").addClass("list").append($("<div>").addClass("tt").attr({"contenteditable": "true"}).text("제목을 입력하세요."))
-						.append("<button type='button' id='submit'>제출</button><div class='line'></div>");
+						.append("<button type='button'  type='button' id='submit'>제출</button><div class='line'></div>");
 	
 						table.append($("<div>").addClass("ttt").attr({"contenteditable": "true"}).text('내용을 입력하세요.'));
 						
@@ -168,16 +246,16 @@ div.ttt {
 							var title = $(".tt").text();
 							$.ajax({
 								url: path+"/study/insert.json",
-								data: "classRegDate="+${param.day}+"&classTitle="+title+"&contents="+$(".ttt").text()+"&categoryNo=1",
+								data: "classRegDate="+${param.day}+"&classTitle="+title+"&contents="+$(this).next().next().text()+"&categoryNo=1",
 								success: function (data) {
 									chk = false;
 									var l = $("<div>").addClass("list")
 									.append($("<div>").text(title).attr("data-no", data.no));
 									
 									if (!sessionStorage.getItem("user"))
-									l.append($("<button>").text("수정"));
+									l.append($("<button type='button'>").text("수정"));
 									
-									l.append($("<button>").text("글쓰기").addClass("ii"))
+									l.append($("<button type='button'>").text("글쓰기").addClass("ii"))
 									.append($("<div>").addClass("line"))
 									.append($("<div>").addClass("object").text("예시").attr("data-no", data.boardNo));
 									
@@ -187,6 +265,9 @@ div.ttt {
 									
 									$(".listBox > .list:last-child").remove();
 									$(".listBox").append(l);
+									
+									ob();
+									ii();
 								}
 							});
 						});
