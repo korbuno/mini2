@@ -1,5 +1,5 @@
 # mini2
-비트 미니프로젝트2
+비트 미니프로젝트2  <div>spring apply</div>
 
 <h1>실행화면</h1>
 <img src="https://user-images.githubusercontent.com/30588258/38598727-8a548482-3d98-11e8-90d4-bc549d19ecb2.PNG">
