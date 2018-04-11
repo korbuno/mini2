@@ -7,7 +7,7 @@ let path = "/mini2-home";
 let dataList;
 let containerH = 0;
 let writeType = "write";
-let modifyId = 0;
+let modifyId = -1;
 
 
 
@@ -85,10 +85,9 @@ function callAjax(url, param)
 					makeList(i, dataList[i]);
 				} else 
 				{
-
 					if(modifyId == i)
 					{
-						$("input[name='title']").val(dataList[i].title);
+						$("#title" + i).text(dataList[i].title);
 					}
 				}
 			}
@@ -130,7 +129,7 @@ function makeList(i, data)
 		$("#delete" + i).attr("data-id", i);
 		$("#delete" + i).click(function(){
 			writeType = "write";
-			console.log(dataList[$(this).data("id")].boardNo)
+			
 			callAjax(path+"/curriculum/deletecurriculum.json", {boardNo: dataList[$(this).data("id")].boardNo});
 		})
 		
@@ -139,11 +138,11 @@ function makeList(i, data)
 			$("#frm").append("<input type='hidden' name='boardNo' value='1'>");
 			writeType = "modify";
 			modifyId = $(this).data("id")
+			console.log(modifyId)
 			setBackLayerControl("block");
 			controlinBlackLayer();
 			controlPopup();
-			
-			$("input[name='supportNo']").val(dataList[$(this).data("id")].boardNo);
+			$("input[name='boardNo']").val(dataList[$(this).data("id")].boardNo);
 			$("input[name='title']").val(dataList[$(this).data("id")].title);
 			$("textarea[name='contents']").val(dataList[$(this).data("id")].contents);
 		})

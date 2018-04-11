@@ -4,6 +4,8 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/civa" source-path="/upload"/>
+        <wb-resource deploy-path="/image" source-path="/src/main/webapp/WEB-INF/jsp/include/images"/>
         <property name="context-root" value="mini2-home"/>
         <property name="java-output-path" value="/mini2-home/target/classes"/>
     </wb-module>

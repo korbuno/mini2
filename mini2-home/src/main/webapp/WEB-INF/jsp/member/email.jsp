@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/include/mir.jsp" %>
 <%@ include file="/WEB-INF/jsp/include/include.jsp" %>
 <body>
 	<h1>이메일로 전송 된 키를 입력하세요.</h1>

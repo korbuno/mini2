@@ -21,8 +21,9 @@ public class ClassBoard {
     private Integer memberNo;
 
     private Integer look;
+    
 
-    public Integer getBoardNo() {
+	public Integer getBoardNo() {
         return boardNo;
     }
 
@@ -107,4 +108,13 @@ public class ClassBoard {
         this.memberNo = param.getMemberNo();
         this.look = param.getLook();
     }
+
+	@Override
+	public String toString() {
+		return "ClassBoard [boardNo=" + boardNo + ", writer=" + writer + ", title=" + title + ", contents=" + contents
+				+ ", regDate=" + regDate + ", categoryNo=" + categoryNo + ", classNo=" + classNo + ", memberNo="
+				+ memberNo + ", look=" + look + "]";
+	}
+    
+    
 }

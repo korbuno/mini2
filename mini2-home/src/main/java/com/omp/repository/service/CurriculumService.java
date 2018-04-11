@@ -2,14 +2,7 @@ package com.omp.repository.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.omp.common.Page;
-import com.omp.repository.domain.Attendance;
 import com.omp.repository.domain.Curriculum;
-import com.omp.repository.domain.Membership;
-import com.omp.repository.mapper.AttendanceMapper;
 
 
 public interface CurriculumService 

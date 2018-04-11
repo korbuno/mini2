@@ -10,11 +10,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.omp.repository.domain.Member;
+import com.omp.repository.service.MailService;
 import com.omp.repository.service.MemberService;
 
 @Controller
@@ -25,6 +25,7 @@ public class MemberController {
 	private MemberService memberService;
 
 	@Autowired
+	private MailService mailService;
 
 	@RequestMapping("/main.do")
 	public String main() throws Exception {
@@ -52,6 +53,7 @@ public class MemberController {
 		}
 		member.setEmailKey(ra);
 		memberService.insert(member);
+		mailService.sendMail("im490113@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
 	}
 
 	@ResponseBody
@@ -66,6 +68,7 @@ public class MemberController {
 			}
 			member.setEmailKey(ra);
 			memberService.memcha(member);
+			mailService.sendMail("im490113@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
 			return true;
 		} else {
 			return false;

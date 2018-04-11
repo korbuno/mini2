@@ -1,9 +1,10 @@
 package com.omp.evaluation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.omp.repository.domain.EvaluationBoard;
@@ -13,11 +14,7 @@ import com.omp.repository.service.EvaluationBoardService;
 public class EvaluationBoardController {
 	
 	@Autowired
-	private EvaluationBoardService evaluationBoardService = null;
-	
-/*	public EvaluationBoardController() {
-		evaluationBoardService = new EvaluationServiceImpl();
-	}*/
+	private EvaluationBoardService evaluationBoardService;
 	
 	
 	@RequestMapping("/evaluation/evaluationWrite.do")
@@ -26,39 +23,50 @@ public class EvaluationBoardController {
 		return "redirect:/evaluation/evaluationList.do";
 	}
 	
-	@RequestMapping("/evaluation/evaluationwriteForm.do")
+	@RequestMapping("/evaluation/evaluationWriteForm.do")
 	public void writeForm() throws Exception{}
 	
 	
 	@RequestMapping("/evaluation/evaluationDelete.do")
-	public void delete (int no) throws Exception{
-		evaluationBoardService.delete(no);
+	public String delete (int boardNo) throws Exception{
+		evaluationBoardService.delete(boardNo);
+		return "redirect:/evaluation/evaluationList.do";
 	}
 	
 	@RequestMapping("/evaluation/evaluationModify.do")
-	public void modify (EvaluationBoard evaluation) throws Exception{
-		evaluationBoardService.modify(evaluation);
+	public String modify (EvaluationBoard evaluationBoard) throws Exception{
+		evaluationBoardService.modify(evaluationBoard);
+		return "redirect:/evaluation/evaluationList.do";
 	}
 	
 	@RequestMapping("/evaluation/evaluationModifyForm.do")
-	public ModelAndView modifyForm (int no) throws Exception{
-		ModelAndView mav = new ModelAndView("/evaluation/evaluationForm.jsp");
-		mav.addObject(evaluationBoardService.detail(no));
+	public ModelAndView modifyForm (int boardNo) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("evaluationBoard", evaluationBoardService.detail(boardNo));
 		return mav;
 	}
 	
 	@RequestMapping("/evaluation/evaluationDetail.do")
-	public ModelAndView detail(int no) throws Exception{
-		ModelAndView mav = new ModelAndView("/evaluation/evaluationDetail.jsp");
-		mav.addObject(evaluationBoardService.detail(no));
+	public ModelAndView detail(int boardNo) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("evaluationBoard", evaluationBoardService.detail(boardNo));
 		return mav;
 		
 	}
 	
 	@RequestMapping("/evaluation/evaluationList.do")
-	public ModelAndView list(@RequestParam(name="pageNo", defaultValue="1") int no) throws Exception{
+	public ModelAndView list() throws Exception{
+		List<EvaluationBoard> list = evaluationBoardService.list();
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("evaluationList", evaluationBoardService.list());
+		mav.addObject("evaluationList", list);
 		return mav;
 	}
+	
+	@RequestMapping("/evaluation/evaluationScore.do")
+	public ModelAndView score (int boardNo) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		mav.addObject(evaluationBoardService.detail(boardNo));
+		return mav;
+	}
+
 }

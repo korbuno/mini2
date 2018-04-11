@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
-
 <body>
 	<div class="homeBtn" style="font-size: 25px;">
 		<a href="${pageContext.request.contextPath}/main/main.do" style="color: white; text-shadow: 0 0 2px black;">
@@ -54,29 +53,50 @@
 	  </div>
 
 	</div>
-	<div class="logform" style="z-index: 3000" >
-		<div class="w3-container">
-		  <button onclick="document.getElementById('login').style.display='block'" class="w3-button w3-green w3-large">Login</button>
-		
-		  <div id="login" class="w3-modal">
-		    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-		
-		      <div class="w3-center"><br>
-		        <span onclick="document.getElementById('login').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
-		        <img alt="로그인창" style="width:30%" class="w3-circle w3-margin-top">
-		      </div>
-<!-- 로그인폼 -->		
-		      <form class="w3-container" action="/action_page.php">
+
+	<c:choose>
+		<c:when test="${not empty sessionScope.user}">
+			<div class="w3-card-2 w3-display-topright" style="width:100px; z-index: 3000; background: green;">
+			    <header class="w3-container w3-light-grey">
+			      <h4>${sessionScope.user.name}</h4>
+			    </header>
+			    <div class="w3-container">
+			      <p>${sessionScope.user.id}</p>
+			      <hr>
+			      <img src="${pageContext.request.contextPath}/images/img_avatar3.png" class="w3-left w3-circle w3-margin-right" style="width:60px">
+			      <p style="font-size: xx-small;" align="left">${sessionScope.user.email1}${sessionScope.user.email2}</p><br>
+			    </div>
+			    <button class="logout">로그아웃</button>
+			</div>
+		</c:when>
+	
+		<c:otherwise>
+		<div class="logform" style="z-index: 3000" >
+			<div class="w3-container">
+			  <button onclick="document.getElementById('login').style.display='block'" class="w3-button w3-green w3-large">Login</button>
+			
+			  <div id="login" class="w3-modal">
+			    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+			
+			      <div class="w3-center"><br>
+			        <span onclick="document.getElementById('login').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+			        <img alt="로그인창" style="width:30%" class="w3-circle w3-margin-top">
+			      </div>
+			      
 		        <div class="w3-section">
 		          <label><b>아이디</b></label>
-		          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="아이디를 입력하세요." name="id" required>
+		          <input class="w3-input w3-border w3-margin-bottom" type="text" id="id" name="id" tabindex="7" accesskey="L" placeholder="아이디를 입력하세요." class="int" maxlength="41" value="">
+	
 		          <label><b>비밀번호</b></label>
-		          <input class="w3-input w3-border" type="password" placeholder="비밀번호를 입력하세요" name="ps" required>
-		          <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">로그인</button>
-		          <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">회원가입</button>
-		          <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> 자동 로그인
+		          <input class="w3-input w3-border" type="password" id="pw" name="pw" tabindex="8" placeholder="비밀번호를 입력하세요" class="int" maxlength="16">
+		      
+		          <input type="button" title="로그인" alt="로그인" tabindex="12" value="로그인" class="btn_global w3-button w3-block w3-green w3-section w3-padding">
+		          <button class="signUp w3-button w3-block w3-green w3-section w3-padding">회원가입</button>
+		          <input class="w3-check w3-margin-top" type="checkbox" id="login_chk" name="nvlong" class="" tabindex="9" value="off">
+				  <label for="login_chk" id="label_login_chk" class="sp">로그인 상태 유지</label>
+				  
 		        </div>
-		      </form>
+		      
 		
 		      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
 		        <button onclick="document.getElementById('login').style.display='none'" type="button" class="w3-button w3-red">취소</button>
@@ -86,9 +106,21 @@
 		    </div>
   		</div>
 	</div>
+	<!-- 로그인폼 -->		
 </div>
+		</c:otherwise>	
+	</c:choose>
 	<script>
+	var path = '${pageContext.request.contextPath}';
 	
+	$(".logout").click(function(){
+		$.ajax({
+			url: path+"/member/logout.json",
+			success: function(){
+				location.href=path+"/main/main.do";
+			}
+		});
+	});
 	
 	// 검색창 모션
 	function viewSerchDetail(){
@@ -104,7 +136,6 @@
 		}
 	}
 
-	var path = '${pageContext.request.contextPath}';
 
 	$("#search").click(function (e) {
 		$.ajax({
@@ -179,6 +210,30 @@
 	
 	$("#target").focusin(function () {
 		$(".result_container > table").fadeToggle();
+	});
+	var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;"; 
+	$(".signUp").click(function() {
+		window.open(path + "/member/main.do","", popOption);
+	})
+	
+	if($.cookie("id")) {
+						$("#id").val($.cookie("id"));
+						$("#login_chk").prop("checked", "true");
+	}
+	
+	$(".btn_global").click(function () {
+						if(!$("#id").val()) {$("#err_empty_id").css("display", ""); return;}
+						else $("#err_empty_id").css("display", "none");
+						if(!$("#pw").val()) {$("#err_empty_pw").css("display", ""); return;}
+						else $("#err_empty_pw").css("display", "none");
+						$.ajax({
+							url: path+"/member/login.json",
+							data: "chk="+$("#login_chk").prop("checked")+"&id="+$("#id").val()+"&pass="+$("#pw").val(),
+							success: function (data) {
+								if(data) {alert("로그인 성공"); location.href = path+"/main/main.do";}
+								else alert("로그인 실패");
+			}
+		})
 	});
 	</script>
 </body>

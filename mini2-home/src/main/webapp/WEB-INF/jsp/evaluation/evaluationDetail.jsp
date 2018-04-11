@@ -11,11 +11,15 @@
 </head>
 <body>
 <div>
-	<form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/evaluation/evaluationList.do">
-		<table border="2">
+	<form method="post" enctype="multipart/form-data">
+		<table class="table">
 			<tbody>
 				<tr>
 					<th colspan="2">수행평가 게시판</th>
+				</tr>
+				<tr>
+					<th>글 번호</th>
+					<td>${evaluationBoard.boardNo}</td>
 				</tr>
 				<tr>
 					<th>제목</th>
@@ -26,26 +30,13 @@
 					<td>${evaluationBoard.writer}</td>
 				</tr>
 				<tr>
-					<th>파일</th>
-					<td>${fileBoard.originalName}</td>
-				</tr>
-				
-				<tr>
 					<th>내용</th>
-					<td>${evaluationboard.contents}</td>
-				</tr>
-				<tr>
-					<th>작성자</th>
-					<td>${member.id}</td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td>${evaluationboard.contents}</td>
+					<td>${evaluationBoard.contents}</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<input type="submit" value="수정">
-						<input type="submit" value="삭제">
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/evaluation/evaluationModifyForm.do?boardNo=${evaluationBoard.boardNo}'">수정</button>	
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/evaluation/evaluationDelete.do?boardNo=${evaluationBoard.boardNo}'">삭제</button>
 					</td>
 				</tr>
 			</tbody>

@@ -51,7 +51,7 @@
 				</div>
 				<button
 					onclick="document.getElementById('notice').style.display='block'"
-					class="w3-button w3-black">작성</button>
+					class="w3-button w3-black">새로 작성</button>
 			</div>
 		</div>
 	</div>

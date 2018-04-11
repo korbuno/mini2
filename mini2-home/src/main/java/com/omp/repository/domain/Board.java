@@ -1,6 +1,7 @@
 package com.omp.repository.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Board {
 	private Integer boardNo;
@@ -16,6 +17,16 @@ public class Board {
 	private Integer categoryNo;
 
 	private Integer memberNo;
+
+	private List<CommentBoard> commentList;
+
+	public List<CommentBoard> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<CommentBoard> commentList) {
+		this.commentList = commentList;
+	}
 
 	public Integer getBoardNo() {
 		return boardNo;

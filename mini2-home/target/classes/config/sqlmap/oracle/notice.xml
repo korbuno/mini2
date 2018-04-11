@@ -10,13 +10,45 @@
 		<result column="reg_date" property="regDate" />
 		<result column="category_no" property="categoryNo" />
 		<result column="member_no" property="memberNo" />
+		<collection property="commentList"  javaType="java.util.ArrayList" column="board_no" ofType="commentBoard" select="commentList"></collection>
 	</resultMap>
 	
-	<select id="list" parameterType="int" resultMap="boardMap">
-		select * from (
-			select board.*, rownum as rn 
-			from board where category_no = #{categoryNo}
-			order by reg_date )
-		where rn between 1 and 5
+	<resultMap id="commentMap" type="commentBoard">
+		<result column="comment_no" property="commentNo" />
+		<result column="board_no" property="boardNo" />
+		<result column="comment_writer" property="commentWriter" />
+		<result column="comment_contents" property="commentContents" />
+		<result column="comment_reg_date" property="commentRegdate" />
+	</resultMap>
+	
+	<select id="list" parameterType="page" resultMap="boardMap">
+		select * from 
+			(select rownum rnum, a.* from 
+				(select * from board where category_no = 6 order by board_no desc)
+			a)
+		where rnum between #{begin} and #{end}
 	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from board where category_no = 6
+	</select>
+	
+	<select id="commentList" parameterType="int" resultMap="commentMap">
+		select * from comment_board where board_no = #{boardNo} order by comment_no desc
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from board where board_no = #{boardNo}
+	</delete>
+	
+	<update id="update" parameterType="board">
+		update board set contents = #{contents} where board_no = #{boardNo}		
+	</update>
+	
+	<insert id="commentInsert" parameterType="commentBoard">
+		insert into comment_board
+		 (comment_no, board_no, comment_writer, comment_contents, comment_reg_date)
+		values
+		 (comment_board_seq.nextval, #{boardNo}, #{commentWriter}, #{commentContents}, sysdate)
+	</insert>
 </mapper>

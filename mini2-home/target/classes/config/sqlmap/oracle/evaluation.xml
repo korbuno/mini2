@@ -7,7 +7,7 @@
 		<result column="board_no" property="boardNo" />
 		<result column="title" property="title" />
 		<result column="writer" property="writer" />
-		<result column="content" property="content" />
+		<result column="contents" property="contents" />
 		<result column="reg_date" property="regDate" />
 		<result column="category_no" property="categoryNo" />
 		<result column="member_no" property="memberNo" />
@@ -19,43 +19,60 @@
 			title, 
 			writer, 
 			contents,
-			reg_date,
 			category_no,
 			member_no
 		) values ( 
 			board_no.nextval, 
-		    #{title, jdbcType=VARCHAR}, #{writer, jdbcType=VARCHAR}, #{contents, jdbcType=VARCHAR}, 
-		    #{regDate, jdbcType=DATE},#{categoryNo, jdbcType=INTEGER}, #{memberNo, jdbcType=INTEGER}
+		    #{title}, #{writer}, #{contents}, 
+		    #{categoryNo}, #{memberNo}
 		)
 	</insert>
 	
 	<update id="modifyEvaluation" parameterType="EvaluationBoard">
 	   update board 
-	      set title = #{title, jdbcType=VARCHAR}, 
-	          contents = #{contents, jdbcType=VARCHAR}, 
-	          writer = #{writer, jdbcType=VARCHAR} 
-	    where board_no = #{boardNo, jdbcType=INTEGER} and category_no = #{categoryNo, jdbcType=INTEGER}
+	      set title = #{title}, 
+	          contents = #{contents}, 
+	          writer = #{writer} 
+	    where board_no = #{boardNo} and category_no = #{categoryNo}
 	</update>
 	
 	<delete id="deleteEvaluation" parameterType="int">
 		delete
 		  from board
-	  	 where board_no = #{boardNo, jdbcType=INTEGER} and category_no = #{categoryNo, jdbcType=INTEGER}
+	  	 where board_no = #{boardNo}
 	</delete>
 	
 	<select id="detailEvaluation" parameterType="int" resultMap="boardMap">
 		select * 
 			from board
-		   where board_no= #{boardNo, jdbcType=INTEGER} and category_no = #{categoryNo, jdbcType=INTEGER}
+		   where board_no= #{boardNo} 
 	</select>
 	
 	<select id="listEvaluation" resultMap="boardMap">
-		select *
-			from board 
-<!-- 		select b.board_no, b.title, b.writer, b.contents, b.reg_date, s.score
-			from board b, score s
-				where {boardNo, jdbcType=INTEGER} = {boardNo, jdbcType=INTEGER) -->
+		
+		select board.board_no, board.title, board.writer, board.contents, board.reg_date
+			from board, category
+        where board.category_no =  category.category_no
+        and board.category_no = 2
+        order by board_no desc
+        
 	</select>
+	<resultMap id="commentMap" type="commentBoard">
+		<result column="board_no" property="boardNo" />
+		<result column="comment_no" property="commnetNo" />
+		<result column="comment_writer" property="commentWriter" />
+		<result column="comment_contents" property="commentContents" />
+		<result column="comment_reg_date" property="commentRegDate" />
+	</resultMap>
+	
+	<select id="commentEvaluation" parameterType="int">
+		select comment_board.* 
+		 from comment_board , board
+		 where comment_board.board_no = board.board_no
+		 and board.board_no = #{boardNo}
+	</select>
+	
+	
 </mapper>
 
 

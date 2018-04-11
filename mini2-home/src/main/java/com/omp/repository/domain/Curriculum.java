@@ -2,8 +2,6 @@ package com.omp.repository.domain;
 
 import java.util.Date;
 
-import com.omp.common.Page;
-
 public class Curriculum
 {
 	

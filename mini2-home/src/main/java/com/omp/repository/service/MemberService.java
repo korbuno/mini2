@@ -10,4 +10,3 @@ public interface MemberService {
 	public void memcha(Member member) throws Exception;
 	public void up(String id) throws Exception;
 }
- 

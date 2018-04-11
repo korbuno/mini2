@@ -3,11 +3,12 @@ package com.omp.repository.domain;
 import java.util.Date;
 
 public class CommentBoard {
+
 	private int commentNo;
 	private int boardNo;
 	private String commentWriter;
 	private String commentContents;
-	private Date CommentRegdate;
+	private Date commentRegdate;
 	
 	public int getCommentNo() {
 		return commentNo;
@@ -34,10 +35,10 @@ public class CommentBoard {
 		this.commentContents = commentContents;
 	}
 	public Date getCommentRegdate() {
-		return CommentRegdate;
+		return commentRegdate;
 	}
 	public void setCommentRegdate(Date commentRegdate) {
-		CommentRegdate = commentRegdate;
+		this.commentRegdate = commentRegdate;
 	}
 	
 	

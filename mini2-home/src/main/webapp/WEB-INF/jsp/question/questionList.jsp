@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,7 +13,7 @@
 </head>
 <body>
 	<div>
-		<form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/board/questionWrite.do">
+		<form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/question/questionWriteForm.do">
 			<table class="table">
 				<tr>
 					<th>게시글 번호</th>
@@ -21,15 +22,16 @@
 					<th>내용</th>
 					<th>작성일</th>
 				</tr>
-		<%-- 		<c:forEach var="" items=""> --%>
+				<c:forEach var="QuestionBoard" items="${questionList}"> 
 					<tr>
-						<td>${questionBoard.boardNo}</td>
-						<td>${questionBoard.title}</td>
-						<td>${questionBoard.writer}</td>
-						<td>${questionBoard.contents}</td>
-						<td>${questionBoard.regDate}</td>					
+						<td>${QuestionBoard.boardNo}</td>
+						<td>${QuestionBoard.title}</td>
+						<td>${QuestionBoard.writer}</td>
+						<td><a href="${pageContext.request.contextPath}/question/questionDetail.do?boardNo=${QuestionBoard.boardNo}">${QuestionBoard.contents}</a></td>
+						<td><fmt:formatDate value="${QuestionBoard.regDate}" pattern="yyyy-MM-dd" /></td>				
 					</tr>
-		<%-- 		</c:forEach> --%>
+		 		</c:forEach>
+		 		
 				<tr>
 					<th colspan="5"><input type="submit" value="글쓰기"></th>
 				</tr>	

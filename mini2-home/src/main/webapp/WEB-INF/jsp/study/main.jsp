@@ -1,33 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/jsp/include/mir.jsp" %>
 <%@ include file="/WEB-INF/jsp/include/include.jsp" %>
 <style>
 .prev{color: gray;}
-td{height: 80px; width: 36px; text-align: center;}
+td{width: 15vw; height: 12vh; text-align: center; background: white;}
 input{width:65px; text-align: center;}
 .sun{color: red;}
 .sat{color: blue;}
+td > div:first-child{font-weight: bold;}
+tr:first-child > td{height: 20px; font-size: 20px; font-weight: bold;}
 </style>
 <body>
 	<h1></h1>
 	<button><</button><input><input><button>></button><br>
 	<button>이동</button>
+	<button>이번 달</button>
 	<table border="1">
 		<tbody>
 		</tbody>
 	</table>
-	
-	
+
 	<script>	
 	var path = '${pageContext.request.contextPath}';
 	
 	document.onload = makeDal();
 	
+	function ciba() {
+		var tr = $("<tr>");
+		var siba = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+		for (var i = 0; i < siba.length; i++) {
+			tr.append($("<td>").text(siba[i]));
+		}
+		$("tbody").append(tr);
+	}
+	
+	
 	function event (civ) {
 		$("div.title").click(function () {			
 			var obj = $(this);
-			if (obj.text() == "title을 입력하세요.") obj.text("");
+			if (obj.text() == "title을 입력하세요.") obj.text(" ");
 		});
 		
 		$("button.titleSubmit").click(function () {
@@ -51,7 +64,12 @@ input{width:65px; text-align: center;}
 			});
 		});
 		
-		if(!civ) makeDal("凸");
+		$("td > div:first-child").click(function () {
+			var id = $(this).next().attr("id").replace(/[/]/gi, "");
+			location.href=path+"/study/day.do?day="+id;
+		});
+		
+		//if(!civ) makeDal("凸");
 	}
 	
 	function title (str, civ) {
@@ -63,8 +81,8 @@ input{width:65px; text-align: center;}
 					contenteditable: "true"
 				});
 				
-				for (var i = 0; i < $("div.title").length; i++) {
-					var dt = $($("div.title")[i]);
+				for (var i = 0; i < $("td:not(.prev) > div.title").length; i++) {
+					var dt = $($("td:not(.prev) > div.title")[i]);
 					if (map[dt.attr("id")] != undefined) dt.text(map[dt.attr("id")].classTitle).attr({"data-bool": "t", "data-no": map[dt.attr("id")].classNo});
 					else
 						dt.text("title을 입력하세요.")
@@ -119,6 +137,9 @@ input{width:65px; text-align: center;}
 	$("button:eq(2)").click(function () {	
 		submit();
 	});
+	$("button:eq(3)").click(function () {	
+		makeDal(new Date());
+	});
 	
 	function makeDal(date) {
 		var civ = false;
@@ -126,12 +147,15 @@ input{width:65px; text-align: center;}
 			date = new Date();
 			date.setDate(1);
 			$("tbody").empty();
+			ciba();
 			civ = true;
 		} else if(date) {
 			$("tbody").empty();
+			ciba();
 		} else {
 			var date = new Date();
 			date.setDate(1);
+			ciba();
 		}
 		nowDate = date;
 		
@@ -161,26 +185,26 @@ input{width:65px; text-align: center;}
 		for (var i = 0; i < yoil; i++) {
 			var dd = prevDay;
 			if (dd.toString().length == 1) dd = "0"+dd;
-			$("tr:eq(0)").append("<td class='prev'><div>"+prevDay+++"</div><div class='title' id='"+pyy+"/"+(mm-1)+"/"+(dd-1)+"'></div><button type='button' class='titleSubmit'>제출</button></td>");
+			$("tr:eq(1)").append("<td class='prev'><div>"+prevDay+++"</div><div class='title' id='"+pyy+"/"+(mm-1)+"/"+(dd-1)+"'></div></td>");
 		}
 		for (var i = 1; i <= 7-yoil; i++) {
-			var dd = (i+1);
+			var dd = i;
 			if (dd.toString().length == 1) dd = "0"+dd;
 			var str = yy+"/"+mm+"/"+dd;
-			var dayHtml = $("<td>").addClass("prev").append($("<div>").text(i)).append($("<div>").addClass("title").attr("id", str)).append("<button type='button' class='titleSubmit'>제출</button>");
+			var dayHtml = $("<td>").append($("<div>").text(i)).append($("<div>").addClass("title").attr("id", str)).append("<button type='button' class='titleSubmit'>제출</button>");
 			if(i == 7-yoil) dayHtml.addClass("sat");
-			$("tr:eq(0)").append(dayHtml);
+			$("tr:eq(1)").append(dayHtml);
 		}
-		var weekCnt = 1;
+		var weekCnt = 2;
 		$("table").append("<tr>");
 		var week = $("tr:eq("+weekCnt+")")
 		
 		for (var i = 7-yoil+1; i <= lastDay; i++) {
-			var dd = (i+1);
+			var dd = i;
 			if (dd.toString().length == 1) dd = "0"+dd;
 			var nowYoil = week.find("td").length;
 			var str = yy+"/"+mm+"/"+dd;
-			var dayHtml = $("<td>").addClass("prev").append($("<div>").text(i)).append($("<div>").addClass("title").attr("id", str)).append("<button type='button' class='titleSubmit'>제출</button>");
+			var dayHtml = $("<td>").append($("<div>").text(i)).append($("<div>").addClass("title").attr("id", str)).append("<button type='button' class='titleSubmit'>제출</button>");
 			if (nowYoil%7 == 0) {
 				$("table").append("<tr>");
 				week = $("tr:eq("+weekCnt+++")");

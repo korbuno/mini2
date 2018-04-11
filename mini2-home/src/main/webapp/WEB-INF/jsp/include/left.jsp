@@ -16,12 +16,13 @@
 	  <div class="w3-container w3-display-container w3-padding-16">
 	    <h3 class="w3-wide"><b>Yang Im Yun Lee</b></h3>
 	  </div>
-    <a href="${pageContext.request.contextPath}/notice/list.do" class="w3-bar-item w3-button"><i class="fa fa-bell fa-fw" aria-hidden="true"></i>&nbsp;공지사항</a>
-    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp;수업 게시판</a>
-    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;질문 게시판</a>
-    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i>&nbsp;커리큘럼 게시판</a>
-    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;강의평가 게시판</a>
-    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>&nbsp;출석률 게시판</a>
+    <a href="${pageContext.request.contextPath}/notice/list.do?pageNo=1" class="w3-bar-item w3-button"><i class="fa fa-bell fa-fw" aria-hidden="true"></i>&nbsp;공지사항</a>
+    <a href="${pageContext.request.contextPath}/study/main.do" class="w3-bar-item w3-button"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>&nbsp;수업 게시판</a>
+    <a href="${pageContext.request.contextPath}/question/questionList.do" class="w3-bar-item w3-button"><i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;질문 게시판</a>
+    <a href="${pageContext.request.contextPath}/curriculum/curriculum.do" class="w3-bar-item w3-button"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i>&nbsp;커리큘럼 게시판</a>
+    <a href="${pageContext.request.contextPath}/evaluation/evaluationList.do" class="w3-bar-item w3-button"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;수행평가 게시판</a>
+    <a href="${pageContext.request.contextPath}/attendance/attendance.do" class="w3-bar-item w3-button"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>&nbsp;출석률 게시판</a>
+    <a href="${pageContext.request.contextPath}/supportlink/readSupport.do" class="w3-bar-item w3-button"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i>&nbsp;서포트 링크</a>
   </div>
 </div>
 </nav>

@@ -4,13 +4,11 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <%@ include file="/WEB-INF/jsp/include/include.jsp" %>
-
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 <title>비트정보처리산업기사 강남점</title>
 </head>
 <body>

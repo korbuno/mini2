@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.omp.repository.domain.Attendance;
-import com.omp.repository.domain.Member;
 import com.omp.repository.service.AttendanceService;
 
 @Controller

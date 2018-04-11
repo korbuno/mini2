@@ -69,7 +69,14 @@
 
 </head>
 <body>
-	<div id="baseContainer">
+
+		<div class="leftter">
+			<c:import url="/WEB-INF/jsp/include/left.jsp" />
+		</div>
+				
+		<!-- 컨텐츠창 ---------------------------------------------------->
+		<div class="contents container-fluid">
+			<div id="baseContainer">
 	
 		<div id="titleContainer">
 			<h1>Attendance</h1>
@@ -79,7 +86,17 @@
 			<!-- http://html5around.com/wordpress/tutorials/node-js%EC%97%90%EC%84%9C-%EC%9B%B9-%ED%8E%98%EC%9D%B4%EC%A7%80-%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7-%EB%A7%8C%EB%93%A4%EA%B8%B0/ -->
 		</div>
 		
+		</div>
+		<!-- ------------------------------------------------------- -->	
+		
+		<!-- 푸터 ---------------------------------------------------->
+		<div class="footer">
+			<c:import url="/WEB-INF/jsp/include/footer.jsp" />
+		</div>
+		<!-- ----------------------------------------------------- -->
+		
 	</div>
+	
 	
 	<script type="text/javascript">
 	

@@ -49,7 +49,7 @@
 	  	select *
 	  		from board
 	  		where category_no = '3'
-	  		order by board_no desc
+	  		order by board_no asc
 	</select>
 	
 	<select id="totalCurriculum" resultType="int">

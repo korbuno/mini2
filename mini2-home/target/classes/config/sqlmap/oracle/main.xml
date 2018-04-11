@@ -16,7 +16,7 @@
 		select * from (
 			select board.*, rownum as rn 
 			from board where category_no = #{categoryNo}
-			order by reg_date
+			order by board_no desc
 		) where rn = 1
 	</select>
 	
@@ -28,12 +28,12 @@
 		) where rn between 1 and 7
 	</select>
 	
-	<update id="updateNotice" parameterType="board">
-	   update board
-	      set contents = #{contents},
-	      reg_date = sysdate
-	    where category_no = #{categoryNo}
- 	</update>
+	<insert id="insertNotice" parameterType="board">
+		INSERT INTO 
+		BOARD (BOARD_NO, WRITER, TITLE, CONTENTS, REG_DATE, CATEGORY_NO, MEMBER_NO)
+		VALUES 
+		(board_no.nextval, '선생님', to_char(sysdate, 'yy/MM/dd')||'_공지사항', #{contents}, sysdate, 6, 1)
+ 	</insert>
  	
 	<update id="updateTodayDeal" parameterType="board">
 	   update board

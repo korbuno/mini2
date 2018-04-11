@@ -1,5 +1,7 @@
 package com.omp.main;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,9 @@ public class MainController {
 	private MainService mainService; // 자동으로 주입
 
 	@RequestMapping("/main.do")
-	public String main(Model model) throws Exception {
+	public String main(Model model, HttpSession session) throws Exception {
+		
+		System.out.println(session.getAttribute("user"));
 		model.addAttribute("newlyBoard", mainService.selectNewlyBoard());
 		model.addAttribute("notice", mainService.selectNotice(6));
 		model.addAttribute("todayDeal", mainService.selectNotice(7));
@@ -27,7 +31,7 @@ public class MainController {
 	@ResponseBody
 	@RequestMapping("/notice.json")
 	public void notice(Board board) throws Exception {
-		mainService.updateNotice(board);
+		mainService.insertNotice(board);
 	}
 
 	@ResponseBody

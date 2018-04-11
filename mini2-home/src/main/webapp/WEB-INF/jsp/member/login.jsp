@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/include/mir.jsp" %>
 <%@ include file="/WEB-INF/jsp/include/include.jsp" %>
 <fieldset class="login_form">
 					<legend class="blind">로그인</legend>
@@ -43,7 +44,7 @@
 							url: path+"/member/login.json",
 							data: "chk="+$("#login_chk").prop("checked")+"&id="+$("#id").val()+"&pass="+$("#pw").val(),
 							success: function (data) {
-								if(data) {alert("로그인 성공"); location.href = path+"/curriculum/curriculum.do";}
+								if(data) {alert("로그인 성공"); location.href = path+"/study/main.do";}
 								else alert("로그인 실패");
 							}
 						})

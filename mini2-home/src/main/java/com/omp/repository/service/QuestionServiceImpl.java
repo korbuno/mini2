@@ -21,21 +21,21 @@ public class QuestionServiceImpl implements QuestionBoardService {
 	}
 
 	
-	public void delete(int no) throws Exception {
-		mapper.deleteQuestion(no);
+	public void delete(int boardNo) throws Exception {
+		mapper.deleteQuestion(boardNo);
 		
 	}
 
 	
-	public void modify(QuestionBoard question) throws Exception {
-		mapper.modifyQuestion(question);
+	public void modify(QuestionBoard questionBoard) throws Exception {
+		mapper.modifyQuestion(questionBoard);
 		
 	}
 
 	
-	public QuestionBoard detail(int no) throws Exception {
+	public QuestionBoard detail(int boardNo) throws Exception {
 		
-		return mapper.detailQuestion(no);
+		return mapper.detailQuestion(boardNo);
 	}
 
 	
@@ -43,5 +43,26 @@ public class QuestionServiceImpl implements QuestionBoardService {
 		
 		return mapper.listQuestion();
 	}
+
+
+	@Override
+	public void advice(QuestionBoard question) throws Exception {
+		
+		mapper.adviceQuestion(question);
+	}
+
+
+	@Override
+	public QuestionBoard detailAd(int boardNo) throws Exception {
+		
+		return mapper.detailAdvice(boardNo);
+	}
+
+
+	
+	
+	
+		
+	
 
 }

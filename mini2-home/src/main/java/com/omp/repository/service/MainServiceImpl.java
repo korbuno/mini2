@@ -23,8 +23,8 @@ public class MainServiceImpl implements MainService
 		return mapper.selectNewlyBoard();
 	}
 
-	public void updateNotice(Board board) throws Exception {
-		mapper.updateNotice(board);	
+	public void insertNotice(Board board) throws Exception {
+		mapper.insertNotice(board);	
 	}
 	public void updateTodayDeal(Board board) throws Exception {
 		mapper.updateTodayDeal(board);	

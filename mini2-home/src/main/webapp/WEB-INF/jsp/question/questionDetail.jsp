@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,11 +11,15 @@
 </head>
 <body>
 <div>
-	<form method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/board/questionModify.do">
+	<form method="post">
 		<table class="table">
 			<tbody>
 				<tr>
 					<th colspan="2">질문 게시판</th>
+				</tr>
+				<tr>
+					<th>글 번호</th>
+					<td>${questionBoard.boardNo}</td>
 				</tr>
 				<tr>
 					<th>제목</th>
@@ -27,33 +30,15 @@
 					<td>${questionBoard.writer}</td>
 				</tr>
 				<tr>
-					<th>파일</th>
-					<td>${fileBoard.originalName}</td>
-				</tr>
-				
-				<tr>
-					<th>내용</th>
-					<td>${questionBoard.contents}</td>
-				</tr>
-				<tr>
-					<th>작성자</th>
-					<td>${member.id}</td>
-				</tr>
-				<tr>
 					<th>내용</th>
 					<td>${questionBoard.contents}</td>
 				</tr>
 				<tr>	
-					<th colspan="2">	
-						<c:choose>
-							<c:when test="${empty user}">
-								<input type="submit" value="답변">	
-							</c:when>
-							<c:otherwise>
-								<input type="submit" value="수정">
-								<input type="submit" value="삭제">
-							</c:otherwise>
-						</c:choose>
+					<th colspan="2">
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/question/questionAdviceForm.do?boardNo=${questionBoard.boardNo}'">답글</button>	
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/question/adviceDetail.do?boardNo=${questionBoard.boardNo}'">답글보기</button>	
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/question/questionModifyForm.do?boardNo=${questionBoard.boardNo}'">수정</button>	
+						<button type="button" onclick="location.href='${pageContext.request.contextPath}/question/questionDelete.do?boardNo=${questionBoard.boardNo}'">삭제</button>	
 					</th>
 				</tr>
 			</tbody>
