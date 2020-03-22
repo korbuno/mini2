@@ -53,7 +53,7 @@ public class MemberController {
 		}
 		member.setEmailKey(ra);
 		memberService.insert(member);
-		mailService.sendMail("im490113@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
+		mailService.sendMail("@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
 	}
 
 	@ResponseBody
@@ -68,7 +68,7 @@ public class MemberController {
 			}
 			member.setEmailKey(ra);
 			memberService.memcha(member);
-			mailService.sendMail("im490113@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
+			mailService.sendMail("@gmail.com", member.getEmail1() + member.getEmail2(), "회원 가입 인증 번호", ra);
 			return true;
 		} else {
 			return false;
